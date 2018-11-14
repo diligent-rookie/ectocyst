@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">台站展示</router-link>
       <router-link to="/GeneralSettings">总体设置</router-link>
-      <router-link to="/Log">日志显示</router-link>
+      <router-link to="/Log">维护展示</router-link>
     </div>
     <router-view/>
   </div>

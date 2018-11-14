@@ -1,6 +1,6 @@
 <template>
    <div class="log">
-     我是日志页面
+     维护页面
    </div>
 </template>
 
