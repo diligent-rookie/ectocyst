@@ -36,7 +36,7 @@ npm run build
     - index.html  # 入口html
   - src   # 业务代码
     - assets  # 图片，字体等资源
-    - api # 接口交互模块
+    - service # 接口交互模块
     - components  # 公共组件
     - filters   # 过滤器
     - directives  # 指令集合
@@ -47,7 +47,6 @@ npm run build
     - App.vue
     - main.js   # 入口js
     - main.styl # 全局样式
-  - .gitlab-ci.yml # cicd 配置文件
   ```
 
 ### 命名规范， 见[vue风格指南](https://cn.vuejs.org/v2/style-guide/)
@@ -56,19 +55,6 @@ npm run build
   - 其他文件使用小驼峰 —— `main.js`
 - 变量命名：小驼峰　——　`userName`
 
-## 开发流程
-
-### 分支结构
-- master 生产分支，只允许从integration分支合并； 每次提交会发布预发布[staging]环境； `上线需要手动触发CI[repositry master可以触发]`
-- integration 测试分支， 只允许从feature分支合并； 每次提交会发布测试[integration]环境
-- feature 模块分支， 从integration切出来，开发每个模块，开发完了之后合并到integration分支，并删除feature分支
-
-### 代码审核
-- master 分支、 integration 分支的合并 assign 给团队其他人。
-- 尽量避免自己提交merge request； 自己合并
-
-### 上线
-- integration环境提测
-- 测试通过合并master分支
-- 验证staging环境是否正确
-- 让项目的 master/owner 去 staging 对应的 pipline 手动出发生产的部署命令
+### 需求分析
+- 结合文档和原系统截图分析
+- 结合后端接口分析项目需求
