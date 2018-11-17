@@ -2,7 +2,26 @@
   <div class="earchquakeshow">
     <div class="earchcontent">
       <div id="earth-map"></div>
-      <div class="stationMessage"></div>
+      <div class="stationMessage">
+        <ul class="station-tab clearfix">
+          <li v-for="(item,idx) in stationtabs" :key="idx"
+          :class="['tab-button',{active:currentTab===item.id}]"
+          @click.stop="currentTab=item.id"
+          onselectstart="return false">
+            {{item.name}}
+          </li>
+        </ul>
+        <keep-alive>
+          <component :is="componentId" class="tab-content"></component>
+        </keep-alive>
+        <div class="edit-btn">
+          <button class="sure">确定</button>
+          <button class="delete"
+          v-show="currentTab==='EditComponent'">
+          删除
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -12,10 +31,28 @@ import echarts from 'echarts'
 import china from '../../public/json/china'
 import {MapEchart} from '@/config/EchartJson.js'
 import {getStationAll} from '../service/index'
+import EditComponent from '../components/EditComponent'
+
+import AddComponent from '../components/AddComponent.vue'
 export default {
   name: 'EarthQuakeShow',
-  methods: {
-
+  data () {
+    return {
+      currentTab: 'EditComponent',
+      stationtabs: [
+        {name: '台站编辑', id: 'EditComponent'},
+        {name: '台站添加', id: 'AddComponent'}
+      ]
+    }
+  },
+  components: {
+    EditComponent,
+    AddComponent
+  },
+  computed: {
+    componentId: function () {
+      return this.currentTab
+    }
   },
   async mounted () {
     let requestStationAll = await getStationAll()
@@ -41,4 +78,25 @@ export default {
   overflow hidden
   float left
   border 1px solid #24B7D2
+
+.station-tab
+  width 100%
+  height .44rem
+  margin-bottom .1rem
+
+.station-tab .tab-button
+  width 1rem
+  text-align center
+  line-height .44rem
+  height 100%
+  float left
+  font-size .18rem
+  cursor pointer
+
+.station-tab .tab-button.active
+  color  #449DDA
+
+.edit-btn
+  width 4rem
+  margin-left 4.2rem
 </style>

@@ -5,7 +5,7 @@ body, ol, ul, h1, h2, h3, h4, h5, h6, p, th, td, dl, dd, form, fieldset, legend,
 
 body {
   font: Helvetica, Arial, sans-serif;
-  background: #fff;
+  background: #0A193A;
   text-size-adjust: 100%;
   font-size .16rem
   color #ffffff
@@ -36,12 +36,54 @@ table {
 p {
   word-wrap: break-word;
 }
-
-.btn {
-  border: 1px solid black;
-  border-radius: 10%;
-  width: 100px;
-  height: 50px;
-  margin: 0 auto;
-  line-height: 50px;
+input,button{
+  border: 0 none;
+  font-size:.16rem;
+  color: #fff;
 }
+input::-webkit-input-placeholder{
+  color:#ccc;
+  font-size:.14rem
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+  color:#ccc;
+  font-size:.14rem
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+  color:#ccc;
+  font-size:.14rem
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+  color:#ccc;
+  font-size:.14rem
+}
+
+.clearfix:before,.clearfix:after{
+  display: block;
+  content: "";
+  clear: both;
+}
+.clearfix{
+  *zoom:1;
+}
+input{
+  border 0 none
+  border 1px solid #4C5979
+  background-color rgba(0,0,0,0.1)
+}
+button{
+  border: 0 none;
+  outline:none;
+}
+.sure,.delete{
+  width: 2.4rem;
+  height:.44rem;
+  border-radius:4px;
+  background-color:#449DDA;
+  margin:.09rem 0
+
+}
+.sure:active,.delete:active{
+  background-color:#4C5979;
+}
+

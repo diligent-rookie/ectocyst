@@ -134,7 +134,7 @@ export const LineEchart = (linedata) => {
 }
 export const MapEchart = (geodata) => {
   let labels = ['连通状态', '失连状态']
-  let colors = ['#000', '#fff']
+  let colors = ['#3E6C66', '#7E4B57']
   // 数据格式处理
   let GeoData = {
     '连通状态': [],
@@ -149,27 +149,14 @@ export const MapEchart = (geodata) => {
       value: [item.longitude, item.latitude]
     }
   })
-  console.log('地图数据', GeoData)
   var series = labels.map((item, idx) => {
     var name = item
     var data = GeoData[name]
     var color = colors[idx]
     console.log('单个数据', data)
+    console.log('name', name)
     return {
-
-      // name: name,
-      // type: 'effectScatter',
-      // // coordinateSystem: 'bmap',
-      // data: data,
-      // showEffectOn: 'render',
-      // rippleEffect: {
-      //   brushType: 'stroke'
-      // },
-      // itemStyle: {
-      //   normal: {
-      //     color: color
-      //   }
-      // }
+      name: name,
       type: 'effectScatter',
       coordinateSystem: 'geo',
       showEffectOn: 'render',
@@ -224,34 +211,25 @@ export const MapEchart = (geodata) => {
         color: '#fff'
       }
     },
-    legend: {
-      orient: 'vertical',
-      icon: 'circle',
-      bottom: '50',
-      left: '10',
-      color: colors,
-      backgroundColor: 'rgba(255,255,255,0.8)',
-      data: [{
-        name: '连通状态',
-        textStyle: {
-          color: '#000'
-        }
-      }, {
-        name: '失连状态',
-        textStyle: {
-          color: '#fff'
-        }
-      }],
-      formatter: function (name) {
-        console.log('图例')
-        return '状态 ' + name
-      }
-    },
     tooltip: {
       trigger: 'item',
       formatter: function (params) {
         return '城市名称：' + params.data.name + '<br>' +
           '坐标显示：' + params.data.value
+      }
+    },
+
+    legend: {
+      orient: 'vertical',
+      left: 'left',
+      data: ['连通状态', '失连状态'],
+      textStyle: {
+        color: '#fff',
+        fontSize: 16
+      },
+      selected: {
+        '连通状态': true,
+        '失连状态': true,
       }
     },
     geo: {
@@ -288,39 +266,6 @@ export const MapEchart = (geodata) => {
 
     },
     series: series
-    // series: [
-    //   {
-    //     type: 'effectScatter',
-    //     coordinateSystem: 'geo',
-    //     showEffectOn: 'render',
-    //     zlevel: 3,
-    //     symbol: 'circle',
-    //     symbolSize: 5,
-    //     rippleEffect: {
-    //       brushType: 'stroke',
-    //       period: 5,
-    //       scale: 7
-    //     },
-    //     label: {
-    //       normal: {
-    //         formatter: '{b}',
-    //         position: 'right',
-    //         offset: [1, 6],
-    //         show: true,
-    //         textStyle: {
-    //           color: '#FF8600'
-    //         }
-    //       }
-    //     },
-    //     itemStyle: {
-    //       normal: {
-    //         show: true,
-    //         color: '#FF8600'
-    //       }
-    //     },
-    //     data: GeoData
-    //   }
-    // ]
 
   }
   return option

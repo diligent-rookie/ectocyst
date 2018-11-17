@@ -207,3 +207,30 @@ export const geoData = [
     value: [90.13, 38.02]
   }
 ]
+
+export const testMessageName = [
+  '台站ID',
+  '台站名称',
+  '台站IP',
+  '台站缩写',
+  '台站纬度',
+  '台站经度',
+  '台站海拔',
+  '启用时间',
+  '地震计类型',
+  '数采类型',
+  '连通标识'
+]
+export const testMessageLists = {
+  'id': 123,
+  'stationName': '青海',
+  'ip': 123,
+  'alias': 123,
+  'latitude': 123,
+  'longitude': 123,
+  'altitude': 123,
+  'ondate': 123,
+  'seismometerType': 123,
+  'ADType': 123,
+  'status': 1,
+}
