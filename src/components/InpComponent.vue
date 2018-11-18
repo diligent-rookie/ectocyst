@@ -1,26 +1,101 @@
 <template>
    <div class="inp">
-        <div class="search" v-show="searchBoolean">
-          <input type="text" placeholder="请输入ID查询"><button>确认</button>
-        </div>
         <ul class="station-edit clearfix">
-          <li v-for="(value,key,index) in messageLists" :key='index'>
-            <span class="message-name">{{messageNames[index]}}</span>
+          <li v-for="(item,index) in messageNames" :key='index'>
+            <span class="message-name">{{item.chineseName}}</span>
             <input type="text" class="message-number"
-            :value="value">
+            :placeholder="item.suggesttext||''"
+            :value="messageLists[item.englishName]"
+            ref="inp">
+            <span class="message-tip"
+            >{{item.suggesttext}}</span>
           </li>
+          <div class="edit-btn">
+            <button class="sure" @click="SureMessage">
+              确定
+            </button>
+            <button class="delete"
+              @click="DeleteMessage(messageLists.id)"
+              v-show="deleteBoolean">
+              删除
+            </button>
+        </div>
         </ul>
    </div>
 </template>
 
 <script>
+import {
+  fixStationMessage,
+  deleteStationMessage,
+  addStationMessage,
+  getStationAll,
+  fixSystemMessage
+} from '../service/index'
+import echarts from 'echarts'
+import {MapEchart} from '@/config/EchartJson.js'
 export default {
   name: '',
   data () {
-    return {}
+    return {
+      idcontent: 3
+    }
   },
   components: {},
-  props: ['messageNames', 'messageLists', 'searchBoolean']
+  props: [
+    'messageNames',
+    'messageLists',
+    'deleteBoolean',
+    'componentName'
+  ],
+  methods: {
+    async requestMapData () {
+      let requestStationAll = await getStationAll()
+      let mapChart = echarts.init(document.getElementById('earth-map'))
+      mapChart.setOption(MapEchart(requestStationAll), true)
+    },
+    // 台站编辑 数据修改
+    async earthQuakeRequest () {
+      let fixStationData = {}
+      this.messageNames.map((item, idx) => {
+        let str = this.$refs.inp[idx].value
+        fixStationData[item.englishName] =
+        Number(str) === +str ? Number(str) : str
+      })
+      this.searchBoolean
+        ? await fixStationMessage(fixStationData)
+        : await addStationMessage(fixStationData)
+      this.requestMapData()
+    },
+    // 系统短信/邮件报警设置 数据修改
+    async generalSettingsRequest () {
+      let fixSystemData = {}
+      this.messageNames.map((item, idx) => {
+        let str = this.$refs.inp[idx].value
+        fixSystemData[item.englishName] =
+        item.englishName === 'sendtell' ? str
+          : (Number(str) === +str ? Number(str) : str)
+      })
+      console.log('系统报警设置', fixSystemData)
+      await fixSystemMessage(fixSystemData)
+    },
+    SureMessage () {
+      switch (this.componentName) {
+        case 'EarthQuakeShow':
+          this.earthQuakeRequest()
+          break
+        case 'GeneralSettings':
+          this.generalSettingsRequest()
+          break
+        default:
+          break
+      }
+    },
+    async DeleteMessage (id) {
+      await deleteStationMessage(Number(id))
+      this.requestMapData()
+    }
+  }
 }
 </script>
 
@@ -46,7 +121,7 @@ export default {
   background-color #4C5979
 
 .station-edit li
-  width 4rem
+  width 6rem
   height .46rem
   padding .09rem 0
   margin 0 auto
@@ -54,16 +129,28 @@ export default {
 .station-edit li .message-name
   display block
   float left
-  width 1rem
+  width 1.5rem
   height .44rem
   line-height .44rem
   text-align left
 
 .station-edit li .message-number
   display block
-  float right
+  float left
   width 2.4rem
   height .44rem
   line-height .44rem
   padding-left .1rem
+
+.station-edit li .message-tip
+  display block
+  float left
+  font-size .12rem
+  color #ccc
+  padding-left .05rem
+  line-height .44rem
+
+.edit-btn
+  width 4rem
+  margin-left 3.2rem
 </style>

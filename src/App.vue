@@ -2,8 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">台站展示</router-link>
-      <router-link to="/GeneralSettings">总体设置</router-link>
-      <router-link to="/Log">维护展示</router-link>
+      <router-link to="/GeneralSettings">台站配置</router-link>
+      <router-link to="/Log">维护配置</router-link>
     </div>
     <router-view/>
   </div>

@@ -3,35 +3,90 @@
      <InpComponent
       :messageNames="messagenames"
       :messageLists="messagelists"
-      :searchBoolean="true"
+      :componentName="'EarthQuakeShow'"
+      :deleteBoolean="true"
      ></InpComponent>
    </div>
 </template>
 
 <script>
 import InpComponent from './InpComponent'
-import {testMessageLists} from '../test/earchquake'
+import {getStationID} from '../service/index'
 export default {
   name: '',
   data () {
     return {
-      messagelists: testMessageLists,
+      messagelists: {},
       messagenames: [
-        '台站ID',
-        '台站名称',
-        '台站IP',
-        '台站缩写',
-        '台站纬度',
-        '台站经度',
-        '台站海拔',
-        '启用时间',
-        '地震计类型',
-        '数采类型',
-        '连通标识'
+        {
+          chineseName: '台站名称',
+          englishName: 'stationName',
+          suggesttext: ''
+        },
+        {
+          chineseName: '台站IP',
+          englishName: 'ip',
+          suggesttext: ''
+        },
+        {
+          chineseName: '台站缩写',
+          englishName: 'alias',
+          suggesttext: ''
+        },
+        {
+          chineseName: '台站纬度',
+          englishName: 'latitude',
+          suggesttext: ''
+        },
+        {
+          chineseName: '台站经度',
+          englishName: 'longitude',
+          suggesttext: ''
+        },
+        {
+          chineseName: '台站海拔',
+          englishName: 'altitude',
+          suggesttext: ''
+        },
+        {
+          chineseName: '启用时间',
+          englishName: 'ondate',
+          suggesttext: ''
+        },
+        {
+          chineseName: '地震计类型',
+          englishName: 'seismometerType',
+          suggesttext: ''
+        },
+        {
+          chineseName: '数采类型',
+          englishName: 'adType',
+          suggesttext: ''
+        },
+        {
+          chineseName: '连通标识',
+          englishName: 'status',
+          suggesttext: '此项谨慎修改'
+        }
       ]
     }
   },
-  components: {InpComponent}
+  components: {InpComponent},
+  props: ['idcontent'],
+  methods: {
+    async  requestStationIdData (idcontent) {
+      let requestStationId = await getStationID(idcontent)
+      this.messagelists = requestStationId
+    },
+  },
+  mounted () {
+    this.requestStationIdData(this.idcontent)
+  },
+  watch: {
+    idcontent: function (newvalue) {
+      this.requestStationIdData(newvalue)
+    }
+  },
 }
 </script>
 

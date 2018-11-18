@@ -12,15 +12,9 @@
           </li>
         </ul>
         <keep-alive>
-          <component :is="componentId" class="tab-content"></component>
+          <component :is="componentId" class="tab-content"
+          :idcontent="MapId"></component>
         </keep-alive>
-        <div class="edit-btn">
-          <button class="sure">确定</button>
-          <button class="delete"
-          v-show="currentTab==='EditComponent'">
-          删除
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -32,13 +26,13 @@ import china from '../../public/json/china'
 import {MapEchart} from '@/config/EchartJson.js'
 import {getStationAll} from '../service/index'
 import EditComponent from '../components/EditComponent'
-
 import AddComponent from '../components/AddComponent.vue'
 export default {
   name: 'EarthQuakeShow',
   data () {
     return {
       currentTab: 'EditComponent',
+      MapId: 3,
       stationtabs: [
         {name: '台站编辑', id: 'EditComponent'},
         {name: '台站添加', id: 'AddComponent'}
@@ -59,6 +53,9 @@ export default {
     let mapChart = echarts.init(document.getElementById('earth-map'))
     echarts.registerMap('china', china)
     mapChart.setOption(MapEchart(requestStationAll), true)
+    mapChart.on('click', (param) => {
+      this.MapId = param.data.id
+    })
   }
 }
 
@@ -96,7 +93,4 @@ export default {
 .station-tab .tab-button.active
   color  #449DDA
 
-.edit-btn
-  width 4rem
-  margin-left 4.2rem
 </style>

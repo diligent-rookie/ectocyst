@@ -4,28 +4,30 @@
       :messageNames="messagenames"
       :messageLists="messagelists"
       :searchBoolean="false"
+      :componentName="'EarthQuakeShow'"
+      :deleteBoolean="false"
      ></InpComponent>
    </div>
 </template>
 
 <script>
 import InpComponent from './InpComponent'
-import {testMessageLists} from '../test/earchquake'
+// import {testMessageLists} from '../test/earchquake'
 export default {
   name: '',
   data () {
     return {
-      messagelists: testMessageLists,
+      messagelists: {},
       messagenames: [
-        '台站名称',
-        '台站IP',
-        '台站缩写',
-        '台站纬度',
-        '台站经度',
-        '台站海拔',
-        '启用时间',
-        '地震计类型',
-        '数采类型'
+        {chineseName: '台站名称', englishName: 'stationName'},
+        {chineseName: '台站IP', englishName: 'ip'},
+        {chineseName: '台站缩写', englishName: 'alias'},
+        {chineseName: '台站纬度', englishName: 'latitude'},
+        {chineseName: '台站经度', englishName: 'longitude'},
+        {chineseName: '台站海拔', englishName: 'altitude'},
+        {chineseName: '启用时间', englishName: 'ondate'},
+        {chineseName: '地震计类型', englishName: 'seismometerType'},
+        {chineseName: '数采类型', englishName: 'adType'}
       ]
     }
   },

@@ -2,31 +2,101 @@
   <div class="generalSetting">
     <div class="generalSettingContent">
       <div id="computer"></div>
+      <div class="system-inp">
+        <h4>系统短信/邮件报警设置</h4>
+        <InpComponent
+          :messageNames="messagenames"
+          :messageLists="messagelists"
+          :searchBoolean="true"
+          :deleteBoolean="false"
+          :componentName="'GeneralSettings'"
+        >
+        </InpComponent>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import VClork from '@/components/VClork'
 import {LineEchart} from '@/config/EchartJson.js'
-import {getLineData} from '../service/index'
+import {getLineData, getSystemID} from '../service/index'
 import echarts from 'echarts'
+import InpComponent from '../components/InpComponent'
 export default {
-  methods: {
-    setInterFn () {
-      setTimeout(async () => {
-        let requestLineData = await getLineData(30, 10)
-        this.lineChart.setOption(LineEchart(requestLineData), true)
-        this.setInterFn()
-      }, 30000)
+  data () {
+    return {
+      messagenames: [
+        {
+          chineseName: '报警间隔时间',
+          englishName: 'intervalAlarm',
+          suggesttext: ''
+        },
+        {
+          chineseName: '引发报警异常数',
+          englishName: 'countAlarm',
+          suggesttext: ''
+        },
+        {
+          chineseName: '报警邮箱',
+          englishName: 'sendmail',
+          suggesttext: '建议使用163邮箱'
+        },
+        {
+          chineseName: '报警邮箱授权码',
+          englishName: 'sendmailAuthorization',
+          suggesttext: '注意不是邮箱密码'
+        },
+        {
+          chineseName: '报警手机号',
+          englishName: 'sendtell',
+          suggesttext: ''
+        },
+        {
+          chineseName: '总日志行数限制',
+          englishName: 'loggerCount',
+          suggesttext: '单位为行'
+        },
+        {
+          chineseName: '总日志存活时间',
+          englishName: 'loggerDay',
+          suggesttext: '单位为天'
+        }
+      ],
+      messagelists: {}
     }
   },
-  components: { VClork },
-  async mounted () {
+  components: {
+    InpComponent
+  },
+  methods: {
+    async drawLine () {
+      let requestLineData = await getLineData(30, 10)
+      this.lineChart.setOption(LineEchart(requestLineData), true)
+    },
+    setInterFn () {
+      setTimeout(async () => {
+        this.drawLine()
+        this.setInterFn()
+      }, 30000)
+    },
+    async  requestSystemIdData () {
+      let requestSystemId = await getSystemID()
+      this.messagelists = requestSystemId
+    },
+  },
+  mounted () {
     // 画线
     this.lineChart = echarts.init(document.getElementById('computer'))
-    let requestLineData = await getLineData(30, 10)
-    this.lineChart.setOption(LineEchart(requestLineData), true)
+    this.drawLine()
     // 每30秒请求一次数据
+    this.setInterFn()
+
+    // 初次请求默认ID系统报警数据
+    this.requestSystemIdData()
+  },
+  watch: {
+    idcontent: function (newvalue) {
+      this.requestSystemIdData(newvalue)
+    }
   }
 }
 </script>
@@ -38,11 +108,21 @@ export default {
 .generalSettingContent
   padding-top .4rem
 
-#computer
+#computer,.system-inp
   width 48%
   height 100%
   margin 0 .15rem
   overflow hidden
   float left
   border 1px solid #24B7D2
+
+.system-inp h4
+  width 100%
+  height .44rem
+  line-height .44rem
+  padding-left .2rem
+  margin-bottom .5rem
+  background-color #449DDA
+  font-weight normal
+  font-size .18rem
 </style>

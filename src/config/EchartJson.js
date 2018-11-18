@@ -133,8 +133,9 @@ export const LineEchart = (linedata) => {
   return option
 }
 export const MapEchart = (geodata) => {
+  // console.log(geodata)
   let labels = ['连通状态', '失连状态']
-  let colors = ['#3E6C66', '#7E4B57']
+  let colors = ['#0fff17', '#ffff17']
   // 数据格式处理
   let GeoData = {
     '连通状态': [],
@@ -143,18 +144,18 @@ export const MapEchart = (geodata) => {
   geodata.map((item, idx) => {
     item.status === 2 ? GeoData['失连状态'][GeoData['失连状态'].length] = {
       name: item.stationName,
-      value: [item.longitude, item.latitude]
+      value: [item.longitude, item.latitude],
+      id: item.id
     } : GeoData['连通状态'][GeoData['连通状态'].length] = {
       name: item.stationName,
-      value: [item.longitude, item.latitude]
+      value: [item.longitude, item.latitude],
+      id: item.id
     }
   })
   var series = labels.map((item, idx) => {
     var name = item
     var data = GeoData[name]
     var color = colors[idx]
-    console.log('单个数据', data)
-    console.log('name', name)
     return {
       name: name,
       type: 'effectScatter',
@@ -162,12 +163,12 @@ export const MapEchart = (geodata) => {
       showEffectOn: 'render',
       zlevel: 3,
       symbol: 'circle',
-      symbolSize: 5,
+      symbolSize: 15,
       showLegendSymbol: true,
       rippleEffect: {
         brushType: 'stroke',
-        period: 5,
-        scale: 7
+        period: 10,
+        scale: 3
       },
       label: {
         normal: {
@@ -221,11 +222,12 @@ export const MapEchart = (geodata) => {
 
     legend: {
       orient: 'vertical',
-      left: 'left',
+      right: 10,
+      top: 20,
       data: ['连通状态', '失连状态'],
       textStyle: {
         color: '#fff',
-        fontSize: 16
+        fontSize: 18
       },
       selected: {
         '连通状态': true,
@@ -246,7 +248,7 @@ export const MapEchart = (geodata) => {
       zoom: 2,
       scaleLimit: {
         min: 1,
-        max: 5,
+        max: 10,
       },
       itemStyle: {
         normal: {
