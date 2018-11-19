@@ -123,7 +123,7 @@ export const removeLogSingle = async (logid) => {
     data: {
       id: logid
     }
-  }, true)
+  }, false)
   return removeSingleData.result
 }
 

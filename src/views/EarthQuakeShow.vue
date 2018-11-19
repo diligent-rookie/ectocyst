@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       currentTab: 'EditComponent',
-      MapId: 3,
+      MapId: '',
       stationtabs: [
         {name: '台站编辑', id: 'EditComponent'},
         {name: '台站添加', id: 'AddComponent'}
@@ -50,6 +50,7 @@ export default {
   },
   async mounted () {
     let requestStationAll = await getStationAll()
+    this.MapId = requestStationAll[0].id
     let mapChart = echarts.init(document.getElementById('earth-map'))
     echarts.registerMap('china', china)
     mapChart.setOption(MapEchart(requestStationAll), true)

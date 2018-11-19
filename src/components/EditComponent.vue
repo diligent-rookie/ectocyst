@@ -79,9 +79,6 @@ export default {
       this.messagelists = requestStationId
     },
   },
-  mounted () {
-    this.requestStationIdData(this.idcontent)
-  },
   watch: {
     idcontent: function (newvalue) {
       this.requestStationIdData(newvalue)

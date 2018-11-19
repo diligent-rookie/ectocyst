@@ -4,8 +4,7 @@
           <li v-for="(item,index) in messageNames" :key='index'>
             <span class="message-name">{{item.chineseName}}</span>
             <input type="text" class="message-number"
-            :placeholder="item.suggesttext||''"
-            :value="messageLists[item.englishName]"
+            :value="messageLists[item.englishName]||''"
             ref="inp">
             <span class="message-tip"
             >{{item.suggesttext}}</span>
@@ -30,16 +29,17 @@ import {
   deleteStationMessage,
   addStationMessage,
   getStationAll,
-  fixSystemMessage
+  fixSystemMessage,
+  fixLogSingle,
+  getLogAll,
+  removeLogSingle
 } from '../service/index'
 import echarts from 'echarts'
 import {MapEchart} from '@/config/EchartJson.js'
 export default {
   name: '',
   data () {
-    return {
-      idcontent: 3
-    }
+    return {}
   },
   components: {},
   props: [
@@ -56,7 +56,7 @@ export default {
     },
     // 台站编辑 数据修改
     async earthQuakeRequest () {
-      let fixStationData = {}
+      let fixStationData = {id: this.messageLists.id}
       this.messageNames.map((item, idx) => {
         let str = this.$refs.inp[idx].value
         fixStationData[item.englishName] =
@@ -69,17 +69,27 @@ export default {
     },
     // 系统短信/邮件报警设置 数据修改
     async generalSettingsRequest () {
-      let fixSystemData = {}
+      let fixSystemData = {id: this.messageLists.id}
       this.messageNames.map((item, idx) => {
         let str = this.$refs.inp[idx].value
         fixSystemData[item.englishName] =
         item.englishName === 'sendtell' ? str
           : (Number(str) === +str ? Number(str) : str)
       })
-      console.log('系统报警设置', fixSystemData)
       await fixSystemMessage(fixSystemData)
     },
-    SureMessage () {
+    // 维护配置 维修人员修改 数据修改
+    async LogRequest () {
+      let fixLogData = {id: this.messageLists.id}
+      this.messageNames.map((item, idx) => {
+        let str = this.$refs.inp[idx].value
+        fixLogData[item.englishName] =
+        item.englishName === 'tell' ? str
+          : (Number(str) === +str ? Number(str) : str)
+      })
+      await fixLogSingle(fixLogData)
+    },
+    async SureMessage () {
       switch (this.componentName) {
         case 'EarthQuakeShow':
           this.earthQuakeRequest()
@@ -87,15 +97,34 @@ export default {
         case 'GeneralSettings':
           this.generalSettingsRequest()
           break
+        case 'Log':
+          await this.LogRequest()
+          await getLogAll()
+          break
         default:
           break
       }
     },
     async DeleteMessage (id) {
-      await deleteStationMessage(Number(id))
-      this.requestMapData()
+      switch (this.componentName) {
+        case 'EarthQuakeShow':
+          await deleteStationMessage(Number(id))
+          await this.requestMapData()
+          break
+        case 'Log':
+          await removeLogSingle(Number(id))
+          await getLogAll()
+          break
+        default:
+          break
+      }
     }
-  }
+  },
+  mounted () {
+    this.messageNames.map((item, idx) => {
+      item === 'name' && console.log(this.messageLists[item.englishName])
+    })
+  },
 }
 </script>
 
