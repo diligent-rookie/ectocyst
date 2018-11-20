@@ -4,6 +4,8 @@
       <router-link to="/">台站展示</router-link>
       <router-link to="/GeneralSettings">台站配置</router-link>
       <router-link to="/Log">维护配置</router-link>
+      <audio autoplay="autoplay" src="../src/assets/董昱昆 - 微博提示音.mp3"></audio>
+      <button class="bells">关闭警报</button>
     </div>
     <router-view/>
   </div>
@@ -26,4 +28,10 @@ html,body,#app
     padding-right .5rem
     &.router-link-exact-active
       color #449DDA
+
+.bells
+  width 1rem
+  height 0.44rem
+  border-radius 4px
+  background-color #449DDA
 </style>

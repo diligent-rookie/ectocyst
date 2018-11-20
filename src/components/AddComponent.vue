@@ -12,7 +12,6 @@
 
 <script>
 import InpComponent from './InpComponent'
-// import {testMessageLists} from '../test/earchquake'
 export default {
   name: '',
   data () {

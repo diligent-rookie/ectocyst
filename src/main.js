@@ -11,11 +11,5 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  render: h => h(App),
-  async mounted () {
-    // console.log('get ping: ', await getPing())
-    setInterval(() => {
-      this.$store.commit('SYNC_CURRENT_TIME')
-    }, 1000)
-  }
+  render: h => h(App)
 }).$mount('#app')

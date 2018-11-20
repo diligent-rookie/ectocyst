@@ -28,14 +28,13 @@ import {
   fixStationMessage,
   deleteStationMessage,
   addStationMessage,
-  getStationAll,
   fixSystemMessage,
   fixLogSingle,
-  getLogAll,
-  removeLogSingle
+  removeLogSingle,
+  addLogSingle
 } from '../service/index'
-import echarts from 'echarts'
-import {MapEchart} from '@/config/EchartJson.js'
+// import echarts from 'echarts'
+// import {MapEchart} from '@/config/EchartJson.js'
 export default {
   name: '',
   data () {
@@ -49,23 +48,20 @@ export default {
     'componentName'
   ],
   methods: {
-    async requestMapData () {
-      let requestStationAll = await getStationAll()
-      let mapChart = echarts.init(document.getElementById('earth-map'))
-      mapChart.setOption(MapEchart(requestStationAll), true)
-    },
-    // 台站编辑 数据修改
+    // 台站编辑 数据修改 数据添加
     async earthQuakeRequest () {
-      let fixStationData = {id: this.messageLists.id}
+      let fixStationData = {}
       this.messageNames.map((item, idx) => {
         let str = this.$refs.inp[idx].value
         fixStationData[item.englishName] =
         Number(str) === +str ? Number(str) : str
       })
-      this.searchBoolean
-        ? await fixStationMessage(fixStationData)
-        : await addStationMessage(fixStationData)
-      this.requestMapData()
+      if (this.deleteBoolean) {
+        fixStationData.id = this.messageLists.id
+        await fixStationMessage(fixStationData)
+      } else {
+        await addStationMessage(fixStationData)
+      }
     },
     // 系统短信/邮件报警设置 数据修改
     async generalSettingsRequest () {
@@ -78,28 +74,34 @@ export default {
       })
       await fixSystemMessage(fixSystemData)
     },
-    // 维护配置 维修人员修改 数据修改
+    // 维护配置 维修人员修改 数据修改 数据添加
     async LogRequest () {
-      let fixLogData = {id: this.messageLists.id}
+      let fixLogData = {}
       this.messageNames.map((item, idx) => {
         let str = this.$refs.inp[idx].value
         fixLogData[item.englishName] =
         item.englishName === 'tell' ? str
           : (Number(str) === +str ? Number(str) : str)
       })
-      await fixLogSingle(fixLogData)
+      if (this.deleteBoolean) {
+        fixLogData.id = this.messageLists.id
+        await fixLogSingle(fixLogData)
+      } else {
+        await addLogSingle(fixLogData)
+      }
     },
     async SureMessage () {
       switch (this.componentName) {
         case 'EarthQuakeShow':
-          this.earthQuakeRequest()
+          await this.earthQuakeRequest()
+          this.$store.dispatch('GET_STATION_DATA')
           break
         case 'GeneralSettings':
           this.generalSettingsRequest()
           break
         case 'Log':
           await this.LogRequest()
-          await getLogAll()
+          this.$store.dispatch('GET_LOGALL_DATA')
           break
         default:
           break
@@ -109,11 +111,11 @@ export default {
       switch (this.componentName) {
         case 'EarthQuakeShow':
           await deleteStationMessage(Number(id))
-          await this.requestMapData()
+          this.$store.dispatch('GET_STATION_DATA')
           break
         case 'Log':
           await removeLogSingle(Number(id))
-          await getLogAll()
+          this.$store.dispatch('GET_LOGALL_DATA')
           break
         default:
           break

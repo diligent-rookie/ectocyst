@@ -5,7 +5,7 @@ export const getStationAll = async () => {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
   }, false)
-  return StationAllData.result
+  return StationAllData
 }
 // 根据ID查询台站信息
 export const getStationID = async (stationid) => {
@@ -90,7 +90,7 @@ export const getLogAll = async () => {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
   }, false)
-  return LogAllData.result
+  return LogAllData
 }
 
 // 获取某一个维修人员

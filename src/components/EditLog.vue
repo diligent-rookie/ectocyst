@@ -13,7 +13,6 @@
 <script>
 import InpComponent from './InpComponent'
 import {getLogID} from '../service/index'
-// import {testMessageLists} from '../test/earchquake'
 export default {
   name: '',
   data () {

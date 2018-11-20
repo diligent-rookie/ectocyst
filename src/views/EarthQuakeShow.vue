@@ -24,9 +24,10 @@
 import echarts from 'echarts'
 import china from '../../public/json/china'
 import {MapEchart} from '@/config/EchartJson.js'
-import {getStationAll} from '../service/index'
+// import {getStationAll} from '../service/index'
 import EditComponent from '../components/EditComponent'
 import AddComponent from '../components/AddComponent.vue'
+import {mapState} from 'vuex'
 export default {
   name: 'EarthQuakeShow',
   data () {
@@ -44,19 +45,36 @@ export default {
     AddComponent
   },
   computed: {
+    ...mapState({
+      stationall_data: state => state.stationall_data
+    }),
     componentId: function () {
       return this.currentTab
     }
   },
+  methods: {
+    setIntervalFn () {
+      setTimeout(() => {
+        this.$store.dispatch('GET_STATION_DATA')
+        this.setIntervalFn()
+      }, 300000)
+    }
+  },
+  watch: {
+    stationall_data: function (newval) {
+      let mapChart = echarts.init(document.getElementById('earth-map'))
+      mapChart.setOption(MapEchart(newval), true)
+      this.MapId = newval[0].id
+      mapChart.on('click', (param) => {
+        this.MapId = param.data.id
+      })
+    }
+  },
   async mounted () {
-    let requestStationAll = await getStationAll()
-    this.MapId = requestStationAll[0].id
-    let mapChart = echarts.init(document.getElementById('earth-map'))
+    this.$store.dispatch('GET_STATION_DATA')
     echarts.registerMap('china', china)
-    mapChart.setOption(MapEchart(requestStationAll), true)
-    mapChart.on('click', (param) => {
-      this.MapId = param.data.id
-    })
+    // 进入页面每五分钟请求一次地图数据
+    this.setIntervalFn()
   }
 }
 

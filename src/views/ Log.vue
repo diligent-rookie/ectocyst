@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import {getLogAll} from '../service/index'
 import AddLog from '../components/AddLog'
 import EditLog from '../components/EditLog'
+import {mapState} from 'vuex'
 export default {
   name: 'Log',
   data () {
@@ -59,6 +59,9 @@ export default {
   },
   components: {AddLog, EditLog},
   computed: {
+    ...mapState({
+      logall_data: state => state.logall_data
+    }),
     componentId: function () {
       return this.currentTab
     }
@@ -68,10 +71,14 @@ export default {
       this.logId = id
     }
   },
+  watch: {
+    logall_data: function (newval) {
+      this.logLists = newval
+      this.logId = newval[0].id
+    }
+  },
   async mounted () {
-    let requestLogAllData = await getLogAll()
-    this.logLists = requestLogAllData
-    this.logId = requestLogAllData[0].id
+    this.$store.dispatch('GET_LOGALL_DATA')
   },
 }
 </script>

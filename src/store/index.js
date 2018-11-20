@@ -6,6 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    stationall_data: [],
+    logall_data: []
   },
   mutations,
   actions,
