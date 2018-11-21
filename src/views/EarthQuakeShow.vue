@@ -2,6 +2,20 @@
   <div class="earchquakeshow">
     <div class="earchcontent">
       <div id="earth-map"></div>
+      <div class="warn">
+        <!-- muted的存在解决chorme浏览器的兼容 -->
+        <audio loop id="bells" muted>
+          <source src="../assets/warn.mp3" type="audio/mpeg">
+          您的浏览器不支持播放音频
+        </audio>
+        <button class="switch"
+        @click="Close"
+        :disabled="!canClose"
+        :class="switchColor?'close':'start'"
+        >
+          关闭警报
+        </button>
+      </div>
       <div class="stationMessage">
         <ul class="station-tab clearfix">
           <li v-for="(item,idx) in stationtabs" :key="idx"
@@ -33,6 +47,11 @@ export default {
   data () {
     return {
       currentTab: 'EditComponent',
+      // 提示音报警系统
+      switchColor: false,
+      switchBoolean: false,
+      canClose: false,
+
       MapId: '',
       stationtabs: [
         {name: '台站编辑', id: 'EditComponent'},
@@ -58,6 +77,12 @@ export default {
         this.$store.dispatch('GET_STATION_DATA')
         this.setIntervalFn()
       }, 300000)
+    },
+    Close () {
+      this.switchColor = !this.switchColor
+      this.switchBoolean = !this.switchBoolean
+      let audio = document.getElementById('bells')
+      this.switchBoolean ? audio.pause() : audio.play()
     }
   },
   watch: {
@@ -68,6 +93,18 @@ export default {
       mapChart.on('click', (param) => {
         this.MapId = param.data.id
       })
+
+      // for 提高查询效率
+      for (var i = 0, len = newval.length; i < len; i++) {
+        if (newval[i].status === 2) break
+      }
+      this.canClose = i < len
+      // 判断所有台站的状态 一个不正常则报警
+      if (!this.switchBoolean && this.canClose) {
+        this.switchColor = true
+        let audio = document.getElementById('bells')
+        audio.play()
+      }
     }
   },
   async mounted () {
@@ -75,6 +112,10 @@ export default {
     echarts.registerMap('china', china)
     // 进入页面每五分钟请求一次地图数据
     this.setIntervalFn()
+    // setInterval(() => {
+    //   this.test++
+
+    // }, 2000)
   }
 }
 
@@ -86,6 +127,7 @@ export default {
 
 .earchcontent
   padding-top .4rem
+  position relative
 
 #earth-map,.stationMessage
   width 48%
@@ -112,4 +154,21 @@ export default {
 .station-tab .tab-button.active
   color  #449DDA
 
+.warn
+  position absolute
+  top 0.42rem
+  left .16rem
+
+.switch
+  width 1rem
+  height 0.44rem
+  border-radius 4px
+  cursor pointer
+  background-color #2e3751
+
+.start
+  background-color #2e3751
+
+.close
+  background-color #449DDA
 </style>
