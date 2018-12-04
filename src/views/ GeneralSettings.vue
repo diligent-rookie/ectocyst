@@ -28,37 +28,44 @@ export default {
         {
           chineseName: '报警间隔时间',
           englishName: 'intervalAlarm',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '引发报警异常数',
           englishName: 'countAlarm',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '报警邮箱',
           englishName: 'sendmail',
-          suggesttext: '建议使用163邮箱'
+          suggesttext: '建议使用163邮箱',
+          errortext: ''
         },
         {
           chineseName: '报警邮箱授权码',
           englishName: 'sendmailAuthorization',
-          suggesttext: '注意不是邮箱密码'
+          suggesttext: '注意不是邮箱密码',
+          errortext: ''
         },
         {
           chineseName: '报警手机号',
           englishName: 'sendtell',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '总日志行数限制',
           englishName: 'loggerCount',
-          suggesttext: '单位为行'
+          suggesttext: '单位为行',
+          errortext: ''
         },
         {
           chineseName: '总日志存活时间',
           englishName: 'loggerDay',
-          suggesttext: '单位为天'
+          suggesttext: '单位为天',
+          errortext: ''
         }
       ],
       messagelists: {}

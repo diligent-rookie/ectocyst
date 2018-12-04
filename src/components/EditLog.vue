@@ -19,11 +19,31 @@ export default {
     return {
       singleLists: {},
       logNames: [
-        {chineseName: '姓名', englishName: 'name'},
-        {chineseName: '性别', englishName: 'sex'},
-        {chineseName: '电话', englishName: 'tell'},
-        {chineseName: '邮箱', englishName: 'email'},
-        {chineseName: '地址', englishName: 'address'}
+        {
+          chineseName: '姓名',
+          englishName: 'name',
+          errortext: ''
+        },
+        {
+          chineseName: '性别',
+          englishName: 'sex',
+          errortext: ''
+        },
+        {
+          chineseName: '电话',
+          englishName: 'tell',
+          errortext: ''
+        },
+        {
+          chineseName: '邮箱',
+          englishName: 'email',
+          errortext: ''
+        },
+        {
+          chineseName: '地址',
+          englishName: 'address',
+          errortext: ''
+        }
       ],
     }
   },

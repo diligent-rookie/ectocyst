@@ -21,52 +21,62 @@ export default {
         {
           chineseName: '台站名称',
           englishName: 'stationName',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '台站IP',
           englishName: 'ip',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '台站缩写',
           englishName: 'alias',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '台站纬度',
           englishName: 'latitude',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '台站经度',
           englishName: 'longitude',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '台站海拔',
           englishName: 'altitude',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '启用时间',
           englishName: 'ondate',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '地震计类型',
           englishName: 'seismometerType',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '数采类型',
           englishName: 'adType',
-          suggesttext: ''
+          suggesttext: '',
+          errortext: ''
         },
         {
           chineseName: '连通标识',
           englishName: 'status',
-          suggesttext: '此项谨慎修改'
+          suggesttext: '此项谨慎修改',
+          errortext: ''
         }
       ]
     }

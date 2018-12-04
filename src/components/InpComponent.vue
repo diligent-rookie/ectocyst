@@ -3,11 +3,19 @@
         <ul class="station-edit clearfix">
           <li v-for="(item,index) in messageNames" :key='index'>
             <span class="message-name">{{item.chineseName}}</span>
+            <RadioMenu
+            v-if="(index===1&&componentName==='Log')
+            ||(index===messageNames.length-1&&componentName==='EarthQuakeShow')"
+            :inpVal="messageLists[item.englishName]||''"
+            :selectLists="componentName==='EarthQuakeShow'?
+            earthselectLists:logselectLists"></RadioMenu>
             <input type="text" class="message-number"
+            v-else
             :value="messageLists[item.englishName]||''"
+            @blur="Verify(index)"
             ref="inp">
-            <span class="message-tip"
-            >{{item.suggesttext}}</span>
+            <span class="message-tip">{{item.suggesttext}}</span>
+            <span class="message-error">{{item.errortext}}</span>
           </li>
           <div class="edit-btn">
             <button class="sure" @click="SureMessage">
@@ -33,14 +41,24 @@ import {
   removeLogSingle,
   addLogSingle
 } from '../service/index'
-// import echarts from 'echarts'
-// import {MapEchart} from '@/config/EchartJson.js'
+import RadioMenu from '../components/RadioMenu'
+import {IpTest, NumberTest, IntNum, EmailTest, TelTest} from '../config/regTest'
 export default {
   name: '',
   data () {
-    return {}
+    return {
+      logselectLists: [
+        {content: '男', selected: false},
+        {content: '女', selected: false}
+      ],
+      earthselectLists: [
+        {content: 0, selected: false},
+        {content: 1, selected: false},
+        {content: 2, selected: false}
+      ]
+    }
   },
-  components: {},
+  components: {RadioMenu},
   props: [
     'messageNames',
     'messageLists',
@@ -48,6 +66,56 @@ export default {
     'componentName'
   ],
   methods: {
+    // 表单验证
+    Verify (n) {
+      let str = this.$refs.inp[n].value
+      if (this.componentName === 'EarthQuakeShow') {
+        switch (n) {
+          case 1:
+            this.messageNames[n].errortext = IpTest(str) ? '' : '请输入正确的IP地址'
+            break
+          case 3:
+            this.messageNames[n].errortext = NumberTest(str) ? '' : '请输入正确的数字格式'
+            break
+          case 4:
+            this.messageNames[n].errortext = NumberTest(str) ? '' : '请输入正确的数字格式'
+            break
+          case 5:
+            this.messageNames[n].errortext = NumberTest(str) ? '' : '请输入正确的数字格式'
+            break
+        }
+      } else if (this.componentName === 'GeneralSettings') {
+        switch (n) {
+          case 0:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+          case 1:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+          case 2:
+            this.messageNames[n].errortext = EmailTest(str) ? '' : '请输入正确的邮箱'
+            break
+          case 4:
+            this.messageNames[n].errortext = TelTest(str) ? '' : '请输入正确的手机号'
+            break
+          case 5:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+          case 6:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+        }
+      } else if (this.componentName === 'Log') {
+        switch (n) {
+          case 2:
+            this.messageNames[n].errortext = TelTest(str) ? '' : '请输入正确的手机号'
+            break
+          case 3:
+            this.messageNames[n].errortext = TelTest(str) ? '' : '请输入正确的手机号'
+            break
+        }
+      }
+    },
     // 台站编辑 数据修改 数据添加
     async earthQuakeRequest () {
       let fixStationData = {}
@@ -184,4 +252,11 @@ export default {
 .edit-btn
   width 4rem
   margin-left 3.2rem
+
+.message-error
+  display block
+  float left
+  line-height .44rem
+  padding-left .05rem
+  color rgb(239,113,100) !important
 </style>

@@ -18,15 +18,51 @@ export default {
     return {
       messagelists: {},
       messagenames: [
-        {chineseName: '台站名称', englishName: 'stationName'},
-        {chineseName: '台站IP', englishName: 'ip'},
-        {chineseName: '台站缩写', englishName: 'alias'},
-        {chineseName: '台站纬度', englishName: 'latitude'},
-        {chineseName: '台站经度', englishName: 'longitude'},
-        {chineseName: '台站海拔', englishName: 'altitude'},
-        {chineseName: '启用时间', englishName: 'ondate'},
-        {chineseName: '地震计类型', englishName: 'seismometerType'},
-        {chineseName: '数采类型', englishName: 'adType'}
+        {
+          chineseName: '台站名称',
+          englishName: 'stationName',
+          errortext: ''
+        },
+        {
+          chineseName: '台站IP',
+          englishName: 'ip',
+          errortext: ''
+        },
+        {
+          chineseName: '台站缩写',
+          englishName: 'alias',
+          errortext: ''
+        },
+        {
+          chineseName: '台站纬度',
+          englishName: 'latitude',
+          errortext: ''
+        },
+        {
+          chineseName: '台站经度',
+          englishName: 'longitude',
+          errortext: ''
+        },
+        {
+          chineseName: '台站海拔',
+          englishName: 'altitude',
+          errortext: ''
+        },
+        {
+          chineseName: '启用时间',
+          englishName: 'ondate',
+          errortext: ''
+        },
+        {
+          chineseName: '地震计类型',
+          englishName: 'seismometerType',
+          errortext: ''
+        },
+        {
+          chineseName: '数采类型',
+          englishName: 'adType',
+          errortext: ''
+        }
       ]
     }
   },
