@@ -1,17 +1,36 @@
 <template>
    <div class="inp">
+        <Alert></Alert>
         <ul class="station-edit clearfix">
           <li v-for="(item,index) in messageNames" :key='index'>
             <span class="message-name">{{item.chineseName}}</span>
-            <RadioMenu
+            <div class="radio-menu"
             v-if="(index===1&&componentName==='Log')
             ||(index===messageNames.length-1&&componentName==='EarthQuakeShow')"
-            :inpVal="messageLists[item.englishName]||''"
-            :selectLists="componentName==='EarthQuakeShow'?
-            earthselectLists:logselectLists"></RadioMenu>
+            >
+              <div class="radio-inp">
+                <input type="text" readonly="readonly"
+                :value="selectVal||messageLists[item.englishName]||''"
+                ref="inp">
+                <i class="iconfont icon-jiantouxia radio-icon"
+                @click="Show"></i>
+              </div>
+              <ul class="radio-content" v-show="showContent">
+                <li v-for="(list,idx) in
+                (componentName==='EarthQuakeShow'?
+                earthselectLists:logselectLists)"
+                :key="idx"
+                :class="{selected:list.selected}"
+                @click="selectList(list,index)">
+                  <span class="list-select iconfont icon-xuanzhong"
+                v-show="list.selected"></span>
+                  <span class="list-name">{{list.content}}</span>
+              </li>
+              </ul>
+            </div>
             <input type="text" class="message-number"
             v-else
-            :value="messageLists[item.englishName]||''"
+            :value="messageLists[item.englishName]||standby[index]||''"
             @blur="Verify(index)"
             ref="inp">
             <span class="message-tip">{{item.suggesttext}}</span>
@@ -43,10 +62,14 @@ import {
 } from '../service/index'
 import RadioMenu from '../components/RadioMenu'
 import {IpTest, NumberTest, IntNum, EmailTest, TelTest} from '../config/regTest'
+import Alert from './Alert.vue'
+import {mapState} from 'vuex'
 export default {
   name: '',
   data () {
     return {
+      showContent: false,
+      selectVal: '',
       logselectLists: [
         {content: '男', selected: false},
         {content: '女', selected: false}
@@ -55,20 +78,52 @@ export default {
         {content: 0, selected: false},
         {content: 1, selected: false},
         {content: 2, selected: false}
-      ]
+      ],
+      standby: []
     }
   },
-  components: {RadioMenu},
+  components: {RadioMenu, Alert},
   props: [
     'messageNames',
     'messageLists',
     'deleteBoolean',
     'componentName'
   ],
+  computed: {
+    ...mapState({
+      IsshowTip: state => state.IsshowTip,
+      isWarn: state => state.isWarn,
+      isDelete: state => state.isDelete
+    })
+  },
   methods: {
+    // 单选菜单
+    Show () {
+      this.showContent = !this.showContent
+    },
+    selectList (n, idx) {
+    // 清空原始选项
+      if (this.componentName === 'EarthQuakeShow') {
+        this.earthselectLists.map((item, idx) => {
+          item.selected = false
+        })
+      } else {
+        this.logselectLists.map((item, idx) => {
+          item.selected = false
+        })
+      }
+
+      n.selected = true
+      this.selectVal = n.content + ''
+      this.showContent = false
+    },
     // 表单验证
     Verify (n) {
       let str = this.$refs.inp[n].value
+      // 验证失败 输入不消失
+      for (let i = 0, len = this.messageNames.length; i < len; i++) {
+        this.standby[i] = this.$refs.inp[i].value
+      }
       if (this.componentName === 'EarthQuakeShow') {
         switch (n) {
           case 1:
@@ -111,7 +166,7 @@ export default {
             this.messageNames[n].errortext = TelTest(str) ? '' : '请输入正确的手机号'
             break
           case 3:
-            this.messageNames[n].errortext = TelTest(str) ? '' : '请输入正确的手机号'
+            this.messageNames[n].errortext = EmailTest(str) ? '' : '请输入正确的邮箱'
             break
         }
       }
@@ -159,6 +214,19 @@ export default {
       }
     },
     async SureMessage () {
+      // 验证失败 取消保存
+      let rulebreakArr = this.messageNames.filter((item, idx) => {
+        return item.errortext
+      })
+      // 输入为空 取消保存
+      let inpValArr = this.standby.filter((item) => {
+        return item
+      })
+      if (rulebreakArr.length ||
+      inpValArr.length !== this.messageNames.length) {
+        this.$store.commit('SET_ALERT_STATUS', true)
+        return
+      }
       switch (this.componentName) {
         case 'EarthQuakeShow':
           await this.earthQuakeRequest()
@@ -176,6 +244,8 @@ export default {
       }
     },
     async DeleteMessage (id) {
+      this.$store.commit('SET_WARN_STATUS', true)
+      if (!this.isDelete) return
       switch (this.componentName) {
         case 'EarthQuakeShow':
           await deleteStationMessage(Number(id))
@@ -191,72 +261,15 @@ export default {
     }
   },
   mounted () {
-    this.messageNames.map((item, idx) => {
-      item === 'name' && console.log(this.messageLists[item.englishName])
-    })
+    // 渲染页面 初始清空alert状态
+    this.$store.commit('SET_ALERT_STATUS', false)
+    if (this.componentName === 'EarthQuakeShow') {
+      this.earthselectLists.map((item, idx) => {
+        this.messageLists.status === item.content &&
+        (item.selected = true)
+      })
+    }
   },
 }
 </script>
-
-<style scoped lang="stylus">
-.search input
-  width 2rem
-  height .35rem
-  text-align center
-  line-height .35rem
-  margin 0 .2rem 0 .5rem
-
-.search input:focus
-  border 1px solid #449DDA
-
-.search button
-  width 1rem
-  height .35rem
-  background-color #449DDA
-  outline none
-  border-radius 3px
-
-.search button:active
-  background-color #4C5979
-
-.station-edit li
-  width 6rem
-  height .46rem
-  padding .09rem 0
-  margin 0 auto
-
-.station-edit li .message-name
-  display block
-  float left
-  width 1.5rem
-  height .44rem
-  line-height .44rem
-  text-align left
-
-.station-edit li .message-number
-  display block
-  float left
-  width 2.4rem
-  height .44rem
-  line-height .44rem
-  padding-left .1rem
-
-.station-edit li .message-tip
-  display block
-  float left
-  font-size .12rem
-  color #ccc
-  padding-left .05rem
-  line-height .44rem
-
-.edit-btn
-  width 4rem
-  margin-left 3.2rem
-
-.message-error
-  display block
-  float left
-  line-height .44rem
-  padding-left .05rem
-  color rgb(239,113,100) !important
-</style>
+<style scoped lang="stylus" src="./inpComponent.styl"></style>

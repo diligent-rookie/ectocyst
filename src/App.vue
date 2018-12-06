@@ -6,9 +6,27 @@
       <router-link to="/Log">维护配置</router-link>
     </div>
     <router-view/>
+    <WarnTip v-show="isWarn"></WarnTip>
   </div>
 </template>
-<script src="../public/js/rem.js"></script>
+<script>
+import '../public/rem.js'
+import WarnTip from './components/WarnTip.vue'
+import {mapState} from 'vuex'
+export default({
+  data () {
+    return {
+
+    }
+  },
+  components: {WarnTip},
+  computed: {
+    ...mapState({
+      isWarn: state => state.isWarn
+    })
+  }
+})
+</script>
 <style lang="stylus">
 html,body,#app
  width 100%

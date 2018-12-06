@@ -12,7 +12,7 @@
             </li>
             <li v-for="(list,idx) in logLists"
             :key="idx"
-            @click="sendId(list.id)"
+            @click="sendId(list&&list.id)"
             class="log-list"
             >
               <span>{{list.name}}</span>
@@ -60,7 +60,7 @@ export default {
   components: {AddLog, EditLog},
   computed: {
     ...mapState({
-      logall_data: state => state.logall_data
+      logallData: state => state.logall_data
     }),
     componentId: function () {
       return this.currentTab
@@ -72,7 +72,7 @@ export default {
     }
   },
   watch: {
-    logall_data: function (newval) {
+    logallData: function (newval) {
       this.logLists = newval
       this.logId = newval[0].id
     }
@@ -91,8 +91,13 @@ export default {
 .log-content
   padding-top .4rem
 
+.all-log
+  width 60%
+
+.log-edit
+  width 36%
+
 .all-log,.log-edit
-  width 48%
   height 100%
   margin 0 .15rem
   overflow-y auto

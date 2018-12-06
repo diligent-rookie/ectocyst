@@ -16,7 +16,19 @@ export default {
   name: '',
   data () {
     return {
-      messagelists: {},
+      messagelists: {
+        adType: '',
+        alias: '',
+        altitude: '',
+        ip: '',
+        latitude: '',
+        longitude: '',
+        ondate: '',
+        seismometerType: '',
+        stationInfoId: '',
+        stationName: '',
+        status: ''
+      },
       messagenames: [
         {
           chineseName: '台站名称',

@@ -16,7 +16,19 @@ export default {
   name: '',
   data () {
     return {
-      messagelists: {},
+      messagelists: {
+        adType: '',
+        alias: '',
+        altitude: '',
+        ip: '',
+        latitude: '',
+        longitude: '',
+        ondate: '',
+        seismometerType: '',
+        stationInfoId: '',
+        stationName: '',
+        status: ''
+      },
       messagenames: [
         {
           chineseName: '台站名称',
@@ -57,7 +69,7 @@ export default {
         {
           chineseName: '启用时间',
           englishName: 'ondate',
-          suggesttext: '',
+          suggesttext: '格式：2018-01-01 00:00:00',
           errortext: ''
         },
         {

@@ -1,9 +1,8 @@
 <template>
   <div class="generalSetting">
     <div class="generalSettingContent">
-      <div id="computer"></div>
       <div class="system-inp">
-        <h4>系统短信/邮件报警设置</h4>
+        <h4>系统配置</h4>
         <InpComponent
           :messageNames="messagenames"
           :messageLists="messagelists"
@@ -13,6 +12,7 @@
         >
         </InpComponent>
       </div>
+      <div id="computer"></div>
     </div>
   </div>
 </template>
@@ -115,8 +115,13 @@ export default {
 .generalSettingContent
   padding-top .4rem
 
+#computer
+  width 36%
+
+.system-inp
+  width 60%
+
 #computer,.system-inp
-  width 48%
   height 100%
   margin 0 .15rem
   overflow hidden

@@ -1,7 +1,7 @@
 <template>
   <div class="radio-menu">
     <div class="radio-inp">
-        <input type="text" readonly="readonly" v-model="inpVal" ref="inp">
+        <input type="text" readonly="readonly" v-model="inpval" ref="inp">
         <i class="iconfont icon-jiantouxia radio-icon" @click="Show"></i>
     </div>
     <ul class="radio-content" v-show="showContent">
@@ -19,20 +19,13 @@
 <script>
 import '../assets/font/iconfont.css'
 export default {
-  components: {},
-  props: ['inpVal', 'selectLists'],
   data () {
     return {
-    //   selectLists: [
-    //     {content: '男', selected: true},
-    //     {content: '女', selected: false}
-    //   ],
       showContent: false,
-    //   inpVal: ''
+      inpval: ''
     }
   },
-  watch: {},
-  computed: {},
+  props: ['inpVal', 'selectLists'],
   methods: {
     Show () {
       this.showContent = !this.showContent
@@ -47,10 +40,14 @@ export default {
       this.showContent = false
     }
   },
-  mounted () {
+  created () {
     // 渲染初始选项
+    console.log('渲染项', this.inpVal)
     this.selectLists.map((item, idx) => {
-      item.selected && (this.inpVal = item.content)
+      if (this.inpVal === item.content) {
+        item.selected = true
+        this.inpval = this.inpVal
+      }
     })
   }
 }

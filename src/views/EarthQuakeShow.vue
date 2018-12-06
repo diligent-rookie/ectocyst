@@ -36,9 +36,9 @@
 
 <script>
 import echarts from 'echarts'
-import china from '../../public/json/china'
+import china from '../config/china'
 import {MapEchart} from '@/config/EchartJson.js'
-// import {getStationAll} from '../service/index'
+import {fixWranStatus, getWranStatus} from '../service/index'
 import EditComponent from '../components/EditComponent'
 import AddComponent from '../components/AddComponent.vue'
 import {mapState} from 'vuex'
@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     ...mapState({
-      stationall_data: state => state.stationall_data
+      stationalData: state => state.stationall_data
     }),
     componentId: function () {
       return this.currentTab
@@ -79,19 +79,33 @@ export default {
       }, 300000)
     },
     Close () {
-      this.switchColor = !this.switchColor
-      this.switchBoolean = !this.switchBoolean
+      this.switchColor = false
+      this.switchBoolean = true
       let audio = document.getElementById('bells')
-      this.switchBoolean ? audio.pause() : audio.play()
+      audio.pause()
+      fixWranStatus()
+      this.canClose = false
+    },
+    async requestStatus () {
+      let requestStatus = await getWranStatus()
+      let audio = document.getElementById('bells')
+      if (requestStatus === 0) {
+        this.switchBoolean = true
+        audio.pause()
+      } else {
+        this.switchBoolean = false
+        audio.play()
+      }
     }
   },
   watch: {
-    stationall_data: function (newval) {
+    stationalData: function (newval) {
       let mapChart = echarts.init(document.getElementById('earth-map'))
       mapChart.setOption(MapEchart(newval), true)
       this.MapId = newval[0].id
       mapChart.on('click', (param) => {
-        this.MapId = param.data.id
+        // 点不到ID时不发送请求
+        param.data && (this.MapId = param.data.id)
       })
 
       // for 提高查询效率
@@ -112,10 +126,10 @@ export default {
     echarts.registerMap('china', china)
     // 进入页面每五分钟请求一次地图数据
     this.setIntervalFn()
-    // setInterval(() => {
-    //   this.test++
-
-    // }, 2000)
+    this.requestStatus()
+  },
+  async activated () {
+    this.requestStatus()
   }
 }
 
@@ -129,11 +143,17 @@ export default {
   padding-top .4rem
   position relative
 
+#earth-map
+  width 60%
+
+.stationMessage
+   width 36%
+
 #earth-map,.stationMessage
-  width 48%
   height 100%
   margin 0 .15rem
-  overflow hidden
+  overflow-y auto
+  overflow-x hidden
   float left
   border 1px solid #24B7D2
 

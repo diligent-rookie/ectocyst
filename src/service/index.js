@@ -1,4 +1,22 @@
 import request from '../util/request'
+// 关闭报警状态
+export const fixWranStatus = async () => {
+  const fixWranData = await request('/station/closeVoice', {
+    method: 'get',
+    contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+  }, false)
+  return fixWranData
+}
+
+// 获取报警状态
+export const getWranStatus = async () => {
+  const getWranData = await request('/station/getAlarmVoice', {
+    method: 'get',
+    contentType: 'application/x-www-form-urlencoded;charset=UTF-8'
+  }, false)
+  return getWranData.result
+}
+
 // 获取所有台站信息
 export const getStationAll = async () => {
   const StationAllData = await request('/station/selectAll', {

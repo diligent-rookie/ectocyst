@@ -1,7 +1,7 @@
 import echarts from 'echarts'
 export const LineEchart = (linedata) => {
   let totaldata = parseInt(linedata[0].totalMemorySize / 1024)
-  let useddata = []
+  var useddata = []
   linedata.map((item) => {
     useddata[useddata.length] = +((item.usedMemory / 1024).toFixed(2))
   })
@@ -134,27 +134,30 @@ export const LineEchart = (linedata) => {
 }
 export const MapEchart = (geodata) => {
   // console.log(geodata)
-  let labels = ['连通状态', '失连状态']
+  let labels = [
+    {name: '连通状态', id: 'link'},
+    {name: '失连状态', id: 'notlink'}
+  ]
   let colors = ['#0fff17', '#ffff17']
   // 数据格式处理
   let GeoData = {
-    '连通状态': [],
-    '失连状态': []
+    'link': [],
+    'notlink': []
   }
   geodata.map((item, idx) => {
-    item.status === 2 ? GeoData['失连状态'][GeoData['失连状态'].length] = {
+    item.status === 2 ? GeoData['notlink'][GeoData['notlink'].length] = {
       name: item.stationName,
       value: [item.longitude, item.latitude],
       id: item.id
-    } : GeoData['连通状态'][GeoData['连通状态'].length] = {
+    } : GeoData['link'][GeoData['link'].length] = {
       name: item.stationName,
       value: [item.longitude, item.latitude],
       id: item.id
     }
   })
   var series = labels.map((item, idx) => {
-    var name = item
-    var data = GeoData[name]
+    var name = item.name
+    var data = GeoData[item.id]
     var color = colors[idx]
     return {
       name: name,
@@ -163,7 +166,7 @@ export const MapEchart = (geodata) => {
       showEffectOn: 'render',
       zlevel: 3,
       symbol: 'circle',
-      symbolSize: 15,
+      symbolSize: 10,
       showLegendSymbol: true,
       rippleEffect: {
         brushType: 'stroke',
@@ -244,8 +247,8 @@ export const MapEchart = (geodata) => {
         }
       },
       roam: true,
-      center: [92.8, 36.81],
-      zoom: 2,
+      center: [98.2, 34.91],
+      zoom: 5,
       scaleLimit: {
         min: 1,
         max: 10,
