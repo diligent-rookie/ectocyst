@@ -42,7 +42,7 @@ export default {
   },
   created () {
     // 渲染初始选项
-    console.log('渲染项', this.inpVal)
+    console.Protection('渲染项', this.inpVal)
     this.selectLists.map((item, idx) => {
       if (this.inpVal === item.content) {
         item.selected = true

@@ -2,16 +2,14 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">台站展示</router-link>
-      <router-link to="/GeneralSettings">台站配置</router-link>
-      <router-link to="/Log">维护配置</router-link>
+      <router-link to="/StationSettings">台站配置</router-link>
+      <router-link to="/Protection">维护配置</router-link>
     </div>
     <router-view/>
-    <WarnTip v-show="isWarn"></WarnTip>
   </div>
 </template>
 <script>
 import '../public/rem.js'
-import WarnTip from './components/WarnTip.vue'
 import {mapState} from 'vuex'
 export default({
   data () {
@@ -19,10 +17,9 @@ export default({
 
     }
   },
-  components: {WarnTip},
   computed: {
     ...mapState({
-      isWarn: state => state.isWarn
+
     })
   }
 })

@@ -1,10 +1,10 @@
 <template>
    <div class="edit-inp">
     <InpComponent
-      :messageNames="logNames"
+      :messageNames="ProtectionNames"
       :messageLists="singleLists"
       :searchBoolean="false"
-      :componentName="'Log'"
+      :componentName="'Protection'"
       :deleteBoolean="true"
     ></InpComponent>
    </div>
@@ -12,13 +12,13 @@
 
 <script>
 import InpComponent from './InpComponent'
-import {getLogID} from '../service/index'
+import {getProtectionID} from '../service/index'
 export default {
   name: '',
   data () {
     return {
       singleLists: {},
-      logNames: [
+      ProtectionNames: [
         {
           chineseName: '姓名',
           englishName: 'name',
@@ -47,17 +47,17 @@ export default {
       ],
     }
   },
-  props: ['idLog'],
+  props: ['idProtection'],
   components: {InpComponent},
   methods: {
-    async requestLogId (id) {
-      let requestLogIdData = await getLogID(id)
-      this.singleLists = requestLogIdData
+    async requestProtectionId (id) {
+      let requestProtectionIdData = await getProtectionID(id)
+      this.singleLists = requestProtectionIdData
     }
   },
   watch: {
-    idLog: function (newvalue) {
-      this.requestLogId(newvalue)
+    idProtection: function (newvalue) {
+      this.requestProtectionId(newvalue)
     }
   },
 }

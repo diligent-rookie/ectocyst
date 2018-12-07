@@ -1,19 +1,19 @@
 <template>
-   <div class="log">
-     <div class="log-content clearfix">
-        <ul class="all-log">
-            <li class="log-title">维修人员概况</li>
-            <li class="log-name">
+   <div class="Protection">
+     <div class="protection-content clearfix">
+        <ul class="all-protection">
+            <li class="protection-title">维修人员概况</li>
+            <li class="protection-name">
               <span>姓名</span>
               <span>性别</span>
               <span>电话</span>
               <span>邮箱</span>
               <span>地址</span>
             </li>
-            <li v-for="(list,idx) in logLists"
+            <li v-for="(list,idx) in ProtectionLists"
             :key="idx"
             @click="sendId(list&&list.id)"
-            class="log-list"
+            class="protection-list"
             >
               <span>{{list.name}}</span>
               <span>{{list.sex}}</span>
@@ -22,9 +22,9 @@
               <span>{{list.address}}</span>
             </li>
         </ul>
-        <div class="log-edit">
-          <ul class="log-tab clearfix">
-            <li v-for="(item,idx) in logtabs" :key="idx"
+        <div class="protection-edit">
+          <ul class="protection-tab clearfix">
+            <li v-for="(item,idx) in Protectiontabs" :key="idx"
             :class="['tab-button',{active:currentTab===item.id}]"
             @click.stop="currentTab=item.id"
             onselectstart="return false">
@@ -33,7 +33,7 @@
           </ul>
           <keep-alive>
              <component :is="componentId" class="tab-content"
-            :idLog="logId"></component>
+            :idProtection="ProtectionId"></component>
           </keep-alive>
         </div>
       </div>
@@ -41,26 +41,26 @@
 </template>
 
 <script>
-import AddLog from '../components/AddLog'
-import EditLog from '../components/EditLog'
+import AddProtection from '../components/AddProtection'
+import EditProtection from '../components/EditProtection'
 import {mapState} from 'vuex'
 export default {
-  name: 'Log',
+  name: 'Protection',
   data () {
     return {
-      logLists: [],
-      currentTab: 'EditLog',
-      logtabs: [
-        {name: '维修人员修改', id: 'EditLog'},
-        {name: '维修人员添加', id: 'AddLog'}
+      ProtectionLists: [],
+      currentTab: 'EditProtection',
+      Protectiontabs: [
+        {name: '维修人员修改', id: 'EditProtection'},
+        {name: '维修人员添加', id: 'AddProtection'}
       ],
-      logId: '',
+      ProtectionId: '',
     }
   },
-  components: {AddLog, EditLog},
+  components: {AddProtection, EditProtection},
   computed: {
     ...mapState({
-      logallData: state => state.logall_data
+      ProtectionallData: state => state.Protectionall_data
     }),
     componentId: function () {
       return this.currentTab
@@ -68,70 +68,70 @@ export default {
   },
   methods: {
     sendId (id) {
-      this.logId = id
+      this.ProtectionId = id
     }
   },
   watch: {
-    logallData: function (newval) {
-      this.logLists = newval
-      this.logId = newval[0].id
+    ProtectionallData: function (newval) {
+      this.ProtectionLists = newval
+      this.ProtectionId = newval[0].id
     }
   },
   async mounted () {
-    this.$store.dispatch('GET_LOGALL_DATA')
+    this.$store.dispatch('GET_PROTECTIONALL_DATA')
   },
 }
 </script>
 
 <style scoped lang="stylus">
-.log,.log-content
+.Protection,.protection-content
   width 100%
   height 93%
 
-.log-content
+.protection-content
   padding-top .4rem
 
-.all-log
+.all-protection
   width 60%
 
-.log-edit
+.protection-edit
   width 36%
 
-.all-log,.log-edit
+.all-protection,.protection-edit
   height 100%
   margin 0 .15rem
   overflow-y auto
   float left
   border 1px solid #24B7D2
 
-.all-log li
+.all-protection li
   width 100%
   height .42rem
   line-height .42rem
   display flex
   justify-content space-around
 
-.all-log li>span
+.all-protection li>span
   display block
   width 20%
   text-align center
 
-.log-title
+.protection-title
   font-size .18rem
   text-align center
 
-.log-name
+.protection-name
   border-bottom 1px solid #24B7D2
 
-.log-list
+.protection-list
   cursor pointer
 
-.log-tab
+.protection-tab
   width 100%
   height .44rem
   margin-bottom .1rem
 
-.log-tab .tab-button
+.protection-tab .tab-button
   width 2rem
   text-align center
   line-height .44rem
@@ -140,9 +140,6 @@ export default {
   font-size .18rem
   cursor pointer
 
-.log-tab .tab-button.active
+.protection-tab .tab-button.active
   color  #449DDA
-
-// .active
-//   background-color #449DDA
 </style>

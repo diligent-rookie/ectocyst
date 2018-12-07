@@ -7,10 +7,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     stationall_data: [],
-    logall_data: [],
+    Protectionall_data: [],
     IsshowTip: false,
+    isDelete: false,
     isWarn: false,
-    isDelete: false
+    messageShow: false
   },
   mutations,
   actions,

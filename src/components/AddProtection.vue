@@ -1,10 +1,10 @@
 <template>
    <div class="add-inp">
     <InpComponent
-      :messageNames="logNames"
+      :messageNames="ProtectionNames"
       :messageLists="singleLists"
       :searchBoolean="false"
-      :componentName="'Log'"
+      :componentName="'Protection'"
       :deleteBoolean="false"
     ></InpComponent>
    </div>
@@ -17,7 +17,7 @@ export default {
   data () {
     return {
       singleLists: {},
-      logNames: [
+      ProtectionNames: [
         {
           chineseName: '姓名',
           englishName: 'name',

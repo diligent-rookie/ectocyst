@@ -7,7 +7,7 @@ export const LineEchart = (linedata) => {
   })
   let option = {
     title: {
-      text: '近5分钟内电脑的使用情况',
+      text: '近5分钟内服务器的使用情况',
       textStyle: {
         fontWeight: 'normal',
         fontSize: 16,
@@ -133,7 +133,7 @@ export const LineEchart = (linedata) => {
   return option
 }
 export const MapEchart = (geodata) => {
-  // console.log(geodata)
+  // console.Protection(geodata)
   let labels = [
     {name: '连通状态', id: 'link'},
     {name: '失连状态', id: 'notlink'}
@@ -218,7 +218,7 @@ export const MapEchart = (geodata) => {
     tooltip: {
       trigger: 'item',
       formatter: function (params) {
-        return '城市名称：' + params.data.name + '<br>' +
+        return '台站名称：' + params.data.name + '<br>' +
           '坐标显示：' + params.data.value
       }
     },

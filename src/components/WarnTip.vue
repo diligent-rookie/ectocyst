@@ -10,13 +10,17 @@
 
 <script>
 import {mapState} from 'vuex'
+import {
+  deleteStationMessage,
+  removeProtectionSingle
+} from '../service/index'
 export default {
   components: {},
-  props: {},
   data () {
     return {
     }
   },
+  props: ['deleteId', 'currentComponent'],
   watch: {},
   computed: {
     ...mapState({
@@ -24,8 +28,20 @@ export default {
     })
   },
   methods: {
-    Sure () {
+    async Sure () {
       this.$store.commit('SET_IS_DELETE', true)
+      switch (this.currentComponent) {
+        case 'StationShow':
+          await deleteStationMessage(Number(this.deleteId))
+          this.$store.dispatch('GET_STATION_DATA')
+          break
+        case 'Protection':
+          await removeProtectionSingle(Number(this.deleteId))
+          this.$store.dispatch('GET_PROTECTIONALL_DATA')
+          break
+        default:
+          break
+      }
       this.$store.commit('SET_WARN_STATUS', false)
     },
     Cancel () {
@@ -70,6 +86,7 @@ button
     margin .8rem 0 0 .55rem
     border-radius 4px
     font-size .16rem
+    cursor pointer
 
 button:active
     background-color #2e3751

@@ -8,7 +8,7 @@
           :messageLists="messagelists"
           :searchBoolean="true"
           :deleteBoolean="false"
-          :componentName="'GeneralSettings'"
+          :componentName="'StationSettings'"
         >
         </InpComponent>
       </div>

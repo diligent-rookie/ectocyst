@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import EarthQuakeShow from '../views/EarthQuakeShow'
-import GeneralSettings from '../views/ GeneralSettings'
-import Log from '../views/ Log'
+import StationShow from '../views/StationShow'
+import StationSettings from '../views/StationSettings'
+import Protection from '../views/Protection'
 
 Vue.use(Router)
 
@@ -10,18 +10,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'EarthQuakeShow',
-      component: EarthQuakeShow
+      name: 'StationShow',
+      component: StationShow
     },
     {
-      path: '/GeneralSettings',
-      name: 'GeneralSettings',
-      component: GeneralSettings
+      path: '/StationSettings',
+      name: 'StationSettings',
+      component: StationSettings
     },
     {
-      path: '/Log',
-      name: 'Log',
-      component: Log
+      path: '/Protection',
+      name: 'Protection',
+      component: Protection
     }
   ]
 })

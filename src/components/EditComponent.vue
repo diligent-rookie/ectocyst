@@ -3,7 +3,7 @@
      <InpComponent
       :messageNames="messagenames"
       :messageLists="messagelists"
-      :componentName="'EarthQuakeShow'"
+      :componentName="'StationShow'"
       :deleteBoolean="true"
      ></InpComponent>
    </div>

@@ -103,66 +103,66 @@ export const fixSystemMessage = async (systemmessage) => {
 }
 
 // 获取所有维修人员
-export const getLogAll = async () => {
-  const LogAllData = await request('accendant/selectAll', {
+export const getProtectionAll = async () => {
+  const ProtectionAllData = await request('accendant/selectAll', {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
   }, false)
-  return LogAllData
+  return ProtectionAllData
 }
 
 // 获取某一个维修人员
-export const getLogID = async (logid) => {
-  const LogIdData = await request('accendant/selectOne', {
+export const getProtectionID = async (Protectionid) => {
+  const ProtectionIdData = await request('accendant/selectOne', {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
     data: {
-      id: logid
+      id: Protectionid
     }
   }, false)
-  return LogIdData.result
+  return ProtectionIdData.result
 }
 
 // 修改某一个维修人员
-export const fixLogSingle = async (logsingleMessage) => {
-  const LogSingleData = await request('accendant/updateOne', {
+export const fixProtectionSingle = async (ProtectionsingleMessage) => {
+  const ProtectionSingleData = await request('accendant/updateOne', {
     method: 'post',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
-    data: logsingleMessage
+    data: ProtectionsingleMessage
   }, true)
-  return LogSingleData.result
+  return ProtectionSingleData.result
 }
 
 // 删除某一个维修人员
-export const removeLogSingle = async (logid) => {
+export const removeProtectionSingle = async (Protectionid) => {
   const removeSingleData = await request('accendant/removeOne', {
     method: 'post',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
     data: {
-      id: logid
+      id: Protectionid
     }
   }, false)
   return removeSingleData.result
 }
 
 // 向维修人员发送报警信息
-export const sendLogSingle = async (logid) => {
+export const sendProtectionSingle = async (Protectionid) => {
   const sendSingleData = await request('accendant/sendMessage', {
     method: 'post',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
     data: {
-      id: logid
+      id: Protectionid
     }
-  }, true)
-  return sendSingleData.result
+  }, false)
+  return sendSingleData.code
 }
 
 // 添加维修人员
-export const addLogSingle = async (logmessage) => {
+export const addProtectionSingle = async (Protectionmessage) => {
   const addSingleData = await request('accendant/insert', {
     method: 'post',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
-    data: logmessage
+    data: Protectionmessage
   }, true)
   return addSingleData.result
 }

@@ -43,7 +43,7 @@ import EditComponent from '../components/EditComponent'
 import AddComponent from '../components/AddComponent.vue'
 import {mapState} from 'vuex'
 export default {
-  name: 'EarthQuakeShow',
+  name: 'StationShow',
   data () {
     return {
       currentTab: 'EditComponent',
