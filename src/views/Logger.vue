@@ -88,6 +88,7 @@ export default {
   display block
   width 20%
   height 100%
+  box-sizing border-box
   text-align center
 
 .logger-title
@@ -101,6 +102,9 @@ export default {
   height 0.8rem
   border-bottom 1px solid #2e3751
 
+.all-logger li.logger-list:hover
+  background-color #24B7D2
+
 .all-logger li.logger-list span:nth-child(1),
 .all-logger li.logger-list span:nth-child(2)
   line-height 0.8rem
@@ -108,4 +112,6 @@ export default {
 .all-logger li.logger-list span:nth-child(3)
   overflow-y auto
   overflow-x hidden
+  text-align left
+  padding-left 1rem
 </style>

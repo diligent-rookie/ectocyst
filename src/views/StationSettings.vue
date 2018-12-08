@@ -26,13 +26,13 @@ export default {
     return {
       messagenames: [
         {
-          chineseName: '报警间隔时间',
+          chineseName: '台站中断累计时长后仍未响应报警',
           englishName: 'intervalAlarm',
-          suggesttext: '',
+          suggesttext: '单位为分钟',
           errortext: ''
         },
         {
-          chineseName: '引发报警异常数',
+          chineseName: '省外台站累计中断数量报警',
           englishName: 'countAlarm',
           suggesttext: '',
           errortext: ''

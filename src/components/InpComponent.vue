@@ -6,7 +6,8 @@
         :currentComponent="componentName"></WarnTip>
         <Alert></Alert>
         <ul class="station-edit clearfix">
-          <li v-for="(item,index) in messageNames" :key='index'>
+          <li v-for="(item,index) in messageNames" :key='index'
+          :class="{stationSet:componentName ==='StationSettings'}">
             <span :class="componentName==='StationSettings'?
             'messagenametwo':'messagename'">
               {{item.chineseName}}

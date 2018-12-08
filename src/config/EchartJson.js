@@ -1,6 +1,6 @@
 import echarts from 'echarts'
 export const LineEchart = (linedata) => {
-  let totaldata = parseInt(linedata[0].totalMemorySize / 1024)
+  let totaldata = Math.ceil(linedata[0].totalMemorySize / 1024)
   var useddata = []
   linedata.map((item) => {
     useddata[useddata.length] = +((item.usedMemory / 1024).toFixed(2))

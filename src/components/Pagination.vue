@@ -19,13 +19,16 @@ export default {
   props: ['total', 'pages'],
   data () {
     return {
-      sum: 31,
+      sum: 0,
       curPage: 1,
     }
   },
   watch: {
     curPage: function (newval) {
       this.$emit('getCurPage', newval)
+    },
+    pages: function (newval) {
+      this.sum = newval
     }
   },
   methods: {
