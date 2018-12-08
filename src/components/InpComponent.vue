@@ -114,7 +114,7 @@ export default {
   watch: {
     messageLists: function (newval) {
       this.componentName === 'StationShow' &&
-      (this.selectVal = newval.status === 0 || 1 ? '连通' : '失连')
+      (this.selectVal = newval.status === 2 ? '失连' : '连通')
     },
     selectVal: function (newval) {
       this.componentName === 'StationShow'
