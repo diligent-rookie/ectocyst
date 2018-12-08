@@ -102,6 +102,7 @@ export default {
   margin 0 .15rem
   overflow-y auto
   float left
+  overflow-x hidden
   border 1px solid #24B7D2
 
 .all-protection li
@@ -125,6 +126,7 @@ export default {
 
 .protection-list
   cursor pointer
+  border-bottom 1px solid #2e3751
 
 .protection-tab
   width 100%

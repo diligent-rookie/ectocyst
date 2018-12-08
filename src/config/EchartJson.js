@@ -133,7 +133,6 @@ export const LineEchart = (linedata) => {
   return option
 }
 export const MapEchart = (geodata) => {
-  // console.Protection(geodata)
   let labels = [
     {name: '连通状态', id: 'link'},
     {name: '失连状态', id: 'notlink'}

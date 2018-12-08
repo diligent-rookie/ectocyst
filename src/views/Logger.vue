@@ -99,7 +99,7 @@ export default {
 
 .all-logger li.logger-list
   height 0.8rem
-  background-color #2e3751
+  border-bottom 1px solid #2e3751
 
 .all-logger li.logger-list span:nth-child(1),
 .all-logger li.logger-list span:nth-child(2)
