@@ -4,6 +4,7 @@
       <router-link to="/">台站展示</router-link>
       <router-link to="/StationSettings">台站配置</router-link>
       <router-link to="/Protection">维护配置</router-link>
+      <router-link to="/Logger">日志展示</router-link>
     </div>
     <router-view/>
   </div>

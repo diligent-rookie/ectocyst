@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import StationShow from '../views/StationShow'
 import StationSettings from '../views/StationSettings'
 import Protection from '../views/Protection'
+import Logger from '../views/Logger'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/Protection',
       name: 'Protection',
       component: Protection
+    },
+    {
+      path: '/Logger',
+      name: 'Logger',
+      component: Logger
     }
   ]
 })

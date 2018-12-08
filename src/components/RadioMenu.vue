@@ -1,17 +1,23 @@
 <template>
+    <!-- 单选组件 -->
   <div class="radio-menu">
     <div class="radio-inp">
-        <input type="text" readonly="readonly" v-model="inpval" ref="inp">
-        <i class="iconfont icon-jiantouxia radio-icon" @click="Show"></i>
+      <input type="text" readonly="readonly"
+      :value="selectVal"
+      ref="inp"
+      class="message-inp">
+      <i class="iconfont icon-jiantouxia radio-icon"
+      @click="Show"></i>
     </div>
     <ul class="radio-content" v-show="showContent">
-        <li v-for="(list,index) in selectLists" :key="index"
-        :class="{selected:list.selected}"
-        @click="selectList(list)">
-            <span class="list-select iconfont icon-xuanzhong"
-            v-show="list.selected"></span>
-            <span class="list-name">{{list.content}}</span>
-        </li>
+      <li v-for="(list,idx) in selectLists"
+      :key="idx"
+      :class="{selected:list.selected}"
+      @click="selectList(list,idx)">
+        <span class="list-select iconfont icon-xuanzhong"
+      v-show="list.selected"></span>
+        <span class="list-name">{{list.content}}</span>
+    </li>
     </ul>
   </div>
 </template>
@@ -22,11 +28,11 @@ export default {
   data () {
     return {
       showContent: false,
-      inpval: ''
     }
   },
-  props: ['inpVal', 'selectLists'],
+  props: ['selectVal', 'selectLists'],
   methods: {
+    // 单选菜单
     Show () {
       this.showContent = !this.showContent
     },
@@ -36,19 +42,11 @@ export default {
         item.selected = false
       })
       n.selected = true
-      this.inpVal = n.content
       this.showContent = false
+      this.$emit('changeStatusVal', n.content)
+      this.$emit('changeProvinceVal', n.content)
+      this.$emit('changeSexVal', n.content)
     }
-  },
-  created () {
-    // 渲染初始选项
-    console.Protection('渲染项', this.inpVal)
-    this.selectLists.map((item, idx) => {
-      if (this.inpVal === item.content) {
-        item.selected = true
-        this.inpval = this.inpVal
-      }
-    })
   }
 }
 </script>
@@ -67,10 +65,10 @@ export default {
     height 0.44rem
 
 .radio-inp input
-    width 2.1rem
+    width 2rem
     height 0.44rem
     color #ffffff
-    text-align center
+    padding-left .1rem
     vertical-align middle
 
 .radio-icon

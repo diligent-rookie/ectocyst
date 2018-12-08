@@ -11,36 +11,35 @@
             'messagenametwo':'messagename'">
               {{item.chineseName}}
             </span>
-            <div class="radio-menu"
-            v-if="(index===1&&componentName==='Protection')
-            ||(index===messageNames.length-1&&componentName==='StationShow')"
+            <RadioMenu v-if="
+            (componentName==='StationShow'&&index===messageNames.length-1)"
+            :selectLists="earthselectLists"
+            :selectVal="selectValOne"
+            @changeStatusVal="getStatusVal"
             >
-              <div class="radio-inp">
-                <input type="text" readonly="readonly"
-                :value="selectVal||
-                inpVal(componentName,messageLists[item.englishName])"
-                ref="inp">
-                <i class="iconfont icon-jiantouxia radio-icon"
-                @click="Show"></i>
-              </div>
-              <ul class="radio-content" v-show="showContent">
-                <li v-for="(list,idx) in
-                (componentName==='StationShow'?
-                earthselectLists:ProtectionselectLists)"
-                :key="idx"
-                :class="{selected:list.selected}"
-                @click="selectList(list,index)">
-                  <span class="list-select iconfont icon-xuanzhong"
-                v-show="list.selected"></span>
-                  <span class="list-name">{{list.content}}</span>
-              </li>
-              </ul>
-            </div>
-            <input type="text" class="message-number"
+            </RadioMenu>
+            <RadioMenu
+            v-else-if="
+            (componentName==='StationShow'&&index===6)"
+            :selectLists="provincelists"
+            :selectVal="selectValTwo"
+            @changeProvinceVal="getProvinceVal"
+            >
+            </RadioMenu>
+            <RadioMenu
+            v-else-if="
+            (componentName==='Protection'&&index===1)"
+            :selectLists="ProtectionselectLists"
+            :selectVal="selectValThere"
+            @changeSexVal="getSexVal"
+            >
+            </RadioMenu>
+            <input type="text" class="message-number message-inp"
             v-else
             :value="messageLists[item.englishName]||standby[index]||''"
             @blur="Verify(index)"
-            ref="inp">
+            ref="inp"
+            >
             <span class="message-tip">{{item.suggesttext}}</span>
             <span class="message-error">{{item.errortext}}</span>
           </li>
@@ -83,14 +82,20 @@ export default {
   data () {
     return {
       showContent: false,
-      selectVal: '',
+      selectValOne: '',
+      selectValTwo: '',
+      selectValThere: '',
       ProtectionselectLists: [
-        {content: '男', selected: false},
-        {content: '女', selected: false}
+        {content: '男', id: '男', selected: false},
+        {content: '女', id: '女', selected: false}
       ],
       earthselectLists: [
-        {content: '连通', selected: false, id: 0},
-        {content: '失连', selected: false, id: 2}
+        {content: '连通', id: 0, selected: false},
+        {content: '失连', id: 2, selected: false}
+      ],
+      provincelists: [
+        {content: '省内', id: 0, selected: false},
+        {content: '省外', id: 1, selected: false}
       ],
       standby: [],
       sendId: 0
@@ -113,49 +118,53 @@ export default {
   },
   watch: {
     messageLists: function (newval) {
-      this.componentName === 'StationShow' &&
-      (this.selectVal = newval.status === 2 ? '失连' : '连通')
+      if (this.componentName === 'StationShow') {
+        this.selectValOne = newval.status === 2 ? '失连' : '连通'
+        this.selectValTwo = newval.province === 0 ? '省内' : '省外'
+      } else {
+        this.selectValThere = newval.sex
+      }
     },
-    selectVal: function (newval) {
-      this.componentName === 'StationShow'
-        ? this.earthselectLists.map((item) => {
-          item.selected = (item.content === newval)
-        }) : this.ProtectionselectLists.map((item) => {
-          item.selected = (item.content === newval)
-        })
+    selectValOne: function (newval) {
+      this.earthselectLists.map((item) => {
+        item.selected = (item.content === newval)
+      })
+    },
+    selectValTwo: function (newval) {
+      this.provincelists.map((item) => {
+        item.selected = (item.content === newval)
+      })
+    },
+    selectValThere: function (newval) {
+      this.ProtectionselectLists.map((item) => {
+        item.selected = (item.content === newval)
+      })
     }
   },
   methods: {
-    // 单选菜单
-    Show () {
-      this.showContent = !this.showContent
+    // 得到子组件改变状态的值
+    getStatusVal (val) {
+      this.selectValOne = val
     },
-    selectList (n, idx) {
-    // 清空原始选项
-      if (this.componentName === 'StationShow') {
-        this.earthselectLists.map((item, idx) => {
-          item.selected = false
-        })
-      } else {
-        this.ProtectionselectLists.map((item, idx) => {
-          item.selected = false
-        })
-      }
-
-      n.selected = true
-      this.selectVal = n.content + ''
-      this.showContent = false
+    // 得到子组件改变省份的值
+    getProvinceVal (val) {
+      this.selectValTwo = val
+    },
+    // 得到子组件改变性别的值
+    getSexVal (val) {
+      this.selectValThere = val
     },
     // 保存当前input框的值
     SaveInpVal () {
       // 验证失败 输入不消失
       for (let i = 0, len = this.messageNames.length; i < len; i++) {
-        this.standby[i] = this.$refs.inp[i].value
+        this.standby[i] =
+        document.getElementsByClassName('message-inp')[i].value
       }
     },
     // 表单验证
     Verify (n) {
-      let str = this.$refs.inp[n].value
+      let str = document.getElementsByClassName('message-inp')[n].value
       this.SaveInpVal()
       if (this.componentName === 'StationShow') {
         switch (n) {
@@ -208,13 +217,20 @@ export default {
     async earthQuakeRequest () {
       let fixStationData = {}
       this.messageNames.map((item, idx) => {
-        let str = this.$refs.inp[idx].value
-        if (idx !== (this.messageNames.length - 1)) {
-          fixStationData[item.englishName] =
-          Number(str) === +str ? Number(str) : str
-        } else {
-          fixStationData[item.englishName] = (this.selectVal === '连通' ? 0 : 2)
+        let str = document.getElementsByClassName('message-inp')[idx].value
+        let newVal = ''
+        switch (idx) {
+          case this.messageNames.length - 1:
+            newVal = this.selectValOne === '连通' ? 0 : 2
+            break
+          case 6:
+            newVal = this.selectValTwo === '省内' ? 0 : 1
+            break
+          default:
+            newVal = Number(str) === +str ? Number(str) : str
+            break
         }
+        fixStationData[item.englishName] = newVal
       })
       if (this.deleteBoolean) {
         fixStationData.id = this.messageLists.id
@@ -238,7 +254,7 @@ export default {
     async ProtectionRequest () {
       let fixProtectionData = {}
       this.messageNames.map((item, idx) => {
-        let str = this.$refs.inp[idx].value
+        let str = document.getElementsByClassName('message-inp')[idx].value
         fixProtectionData[item.englishName] =
         item.englishName === 'tell' ? str
           : (Number(str) === +str ? Number(str) : str)
@@ -292,20 +308,6 @@ export default {
       setTimeout(() => {
         this.$store.commit('SET_MESSAGE_SHOW', false)
       }, 1000)
-    },
-
-    // 解决单选 返回值问题
-    inpVal (name, backVal) {
-      let Val = ''
-      if (name === 'StationShow') {
-        this.earthselectLists.map((item, idx) => {
-          item.id === backVal &&
-          (Val = item.content || '')
-        })
-      } else {
-        Val = backVal || ''
-      }
-      return Val
     }
   },
   mounted () {
@@ -314,13 +316,6 @@ export default {
 
     // 渲染页面 初始清空message状态
     this.$store.commit('SET_MESSAGE_SHOW', false)
-
-    if (this.componentName === 'StationShow') {
-      this.earthselectLists.map((item, idx) => {
-        this.messageLists.status === item.content &&
-        (item.selected = true)
-      })
-    }
   }
 }
 </script>

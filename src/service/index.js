@@ -1,7 +1,7 @@
 import request from '../util/request'
 // 关闭报警状态
 export const fixWranStatus = async () => {
-  const fixWranData = await request('/station/closeVoice', {
+  const fixWranData = await request('station/closeVoice', {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
   }, false)
@@ -10,7 +10,7 @@ export const fixWranStatus = async () => {
 
 // 获取报警状态
 export const getWranStatus = async () => {
-  const getWranData = await request('/station/getAlarmVoice', {
+  const getWranData = await request('station/getAlarmVoice', {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8'
   }, false)
@@ -19,7 +19,7 @@ export const getWranStatus = async () => {
 
 // 获取所有台站信息
 export const getStationAll = async () => {
-  const StationAllData = await request('/station/selectAll', {
+  const StationAllData = await request('station/selectAll', {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
   }, false)
@@ -71,7 +71,7 @@ export const addStationMessage = async (stationmessage) => {
 
 // 请求电脑情况折线图数据
 export const getLineData = async (secondTime, dataSize) => {
-  const linedata = await request('/system/info', {
+  const linedata = await request('system/info', {
     method: 'post',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
     data: {
@@ -165,4 +165,17 @@ export const addProtectionSingle = async (Protectionmessage) => {
     data: Protectionmessage
   }, true)
   return addSingleData.result
+}
+
+// 获取所有日志信息
+export const getAllLogger = async (currentpage, pagesize) => {
+  const getAllLoggerData = await request('log/findlog', {
+    method: 'get',
+    contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+    data: {
+      currentPage: currentpage,
+      size: pagesize
+    }
+  }, false)
+  return getAllLoggerData.result
 }

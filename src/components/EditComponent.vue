@@ -67,6 +67,12 @@ export default {
           errortext: ''
         },
         {
+          chineseName: '所处位置',
+          englishName: 'province',
+          suggesttext: '指省内省外',
+          errortext: ''
+        },
+        {
           chineseName: '启用时间',
           englishName: 'ondate',
           suggesttext: '格式：2018-01-01 00:00:00',
