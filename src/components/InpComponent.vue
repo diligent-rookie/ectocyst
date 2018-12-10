@@ -48,6 +48,7 @@
           v-show="componentName==='Protection'&&deleteBoolean">
             <button @click="sendMessage(messageLists.id)">通知维修</button>
           </div>
+          <NewEmail v-show="componentName==='StationSettings'"></NewEmail>
           <div :class="componentName==='StationSettings'?
             'editbtntwo':'editbtn'">
             <button class="sure" @click="SureMessage">
@@ -78,6 +79,8 @@ import Alert from './Alert.vue'
 import {mapState} from 'vuex'
 import WarnTip from './WarnTip.vue'
 import Message from './Message.vue'
+import NewEmail from './NewEmail.vue'
+
 export default {
   name: '',
   data () {
@@ -102,7 +105,7 @@ export default {
       sendId: 0
     }
   },
-  components: {RadioMenu, Alert, WarnTip, Message},
+  components: {RadioMenu, Alert, WarnTip, Message, NewEmail},
   props: [
     'messageNames',
     'messageLists',
@@ -184,23 +187,11 @@ export default {
         }
       } else if (this.componentName === 'StationSettings') {
         switch (n) {
-          case 0:
+          case n < 4:
             this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
             break
-          case 1:
-            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
-            break
-          case 2:
+          case n > 4:
             this.messageNames[n].errortext = EmailTest(str) ? '' : '请输入正确的邮箱'
-            break
-          case 4:
-            this.messageNames[n].errortext = TelTest(str) ? '' : '请输入正确的手机号'
-            break
-          case 5:
-            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
-            break
-          case 6:
-            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
             break
         }
       } else if (this.componentName === 'Protection') {

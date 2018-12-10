@@ -34,25 +34,7 @@ export default {
         {
           chineseName: '省外台站累计中断数量报警',
           englishName: 'countAlarm',
-          suggesttext: '',
-          errortext: ''
-        },
-        {
-          chineseName: '报警邮箱',
-          englishName: 'sendmail',
-          suggesttext: '建议使用163邮箱',
-          errortext: ''
-        },
-        {
-          chineseName: '报警邮箱授权码',
-          englishName: 'sendmailAuthorization',
-          suggesttext: '注意不是邮箱密码',
-          errortext: ''
-        },
-        {
-          chineseName: '报警手机号',
-          englishName: 'sendtell',
-          suggesttext: '',
+          suggesttext: '单位为个',
           errortext: ''
         },
         {
@@ -65,6 +47,24 @@ export default {
           chineseName: '总日志存活时间',
           englishName: 'loggerDay',
           suggesttext: '单位为天',
+          errortext: ''
+        },
+        {
+          chineseName: '报警邮箱授权码',
+          englishName: 'sendmailAuthorization',
+          suggesttext: '注意不是邮箱密码',
+          errortext: ''
+        },
+        {
+          chineseName: '报警发送邮箱',
+          englishName: 'sendmail',
+          suggesttext: '建议使用163邮箱',
+          errortext: ''
+        },
+        {
+          chineseName: '报警接收邮箱',
+          englishName: 'receivemail',
+          suggesttext: '建议使用163邮箱',
           errortext: ''
         }
       ],
@@ -120,11 +120,13 @@ export default {
 
 .system-inp
   width 60%
+  overflow-y auto
 
 #computer,.system-inp
   height 100%
   margin 0 .15rem
-  overflow hidden
+  overflow-x hidden
+  overflow-y auto
   float left
   border 1px solid #24B7D2
 
