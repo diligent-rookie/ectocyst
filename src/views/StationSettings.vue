@@ -18,7 +18,7 @@
 </template>
 <script>
 import {LineEchart} from '@/config/EchartJson.js'
-import {getLineData, getSystemID} from '../service/index'
+import {getLineData} from '../service/index'
 import echarts from 'echarts'
 import InpComponent from '../components/InpComponent'
 export default {
@@ -60,12 +60,6 @@ export default {
           englishName: 'sendmail',
           suggesttext: '建议使用163邮箱',
           errortext: ''
-        },
-        {
-          chineseName: '报警接收邮箱',
-          englishName: 'receivemail',
-          suggesttext: '建议使用163邮箱',
-          errortext: ''
         }
       ],
       messagelists: {}
@@ -86,8 +80,13 @@ export default {
       }, 30000)
     },
     async  requestSystemIdData () {
-      let requestSystemId = await getSystemID()
-      this.messagelists = requestSystemId
+      this.$store.dispatch('GET_SYSTEM_DATA').then((data) => {
+        console.log('台站配置传过来的数据', data)
+        this.messagelists = data
+      })
+      // let requestSystemId = await getSystemID()
+      // this.messagelists = requestSystemId
+      // this.sendEmailStrL = requestSystemId.receivemail
     },
   },
   mounted () {

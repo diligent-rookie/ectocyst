@@ -89,7 +89,7 @@ export const getSystemID = async () => {
     method: 'get',
     contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
   }, false)
-  return SystemIdData.result
+  return SystemIdData
 }
 
 // 修改系统配置信息

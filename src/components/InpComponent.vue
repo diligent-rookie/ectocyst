@@ -42,13 +42,18 @@
             ref="inp"
             >
             <span class="message-tip">{{item.suggesttext}}</span>
-            <span class="message-error">{{item.errortext}}</span>
+            <span class="message-error" v-show="item.errortext">
+              {{item.errortext}}
+            </span>
           </li>
           <div class="notification"
           v-show="componentName==='Protection'&&deleteBoolean">
             <button @click="sendMessage(messageLists.id)">通知维修</button>
           </div>
-          <NewEmail v-show="componentName==='StationSettings'"></NewEmail>
+          <NewEmail
+          v-show="componentName==='StationSettings'"
+          >
+          </NewEmail>
           <div :class="componentName==='StationSettings'?
             'editbtntwo':'editbtn'">
             <button class="sure" @click="SureMessage">
@@ -190,7 +195,7 @@ export default {
           case n < 4:
             this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
             break
-          case n > 4:
+          case n = 5:
             this.messageNames[n].errortext = EmailTest(str) ? '' : '请输入正确的邮箱'
             break
         }
@@ -234,12 +239,21 @@ export default {
     // 系统短信/邮件报警设置 数据修改
     async stationSettingsRequest () {
       let fixSystemData = {id: this.messageLists.id}
+      let domArr = document.getElementsByClassName('message-inp')
+      let inpLen = domArr.length
+      let startEm = this.messageNames.length
+      let emlarr = ''
       this.messageNames.map((item, idx) => {
-        let str = this.$refs.inp[idx].value
+        let str = domArr[idx].value
         fixSystemData[item.englishName] =
         item.englishName === 'sendtell' ? str
           : (Number(str) === +str ? Number(str) : str)
       })
+      // 处理添加的email邮箱
+      for (let i = startEm; i < inpLen; i++) {
+        emlarr[emlarr.length] = domArr[i].value
+      }
+      fixSystemData.receivemail = emlarr.join(',')
       await fixSystemMessage(fixSystemData)
     },
     // 维护配置 维修人员修改 数据修改 数据添加
@@ -261,9 +275,7 @@ export default {
     async SureMessage () {
       this.SaveInpVal()
       // 验证失败 取消保存
-      let rulebreakArr = this.messageNames.filter((item, idx) => {
-        return item.errortext
-      })
+      let rulebreakArr = document.getElementsByClassName('message-error')
       // 输入为空 取消保存
       let inpValArr = this.standby.filter((item) => {
         return item

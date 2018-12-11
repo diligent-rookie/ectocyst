@@ -11,7 +11,8 @@ export default new Vuex.Store({
     IsshowTip: false,
     isDelete: false,
     isWarn: false,
-    messageShow: false
+    messageShow: false,
+    emails: ''
   },
   mutations,
   actions,

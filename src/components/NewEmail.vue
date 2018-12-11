@@ -15,36 +15,55 @@
         @click="delEm(index)">
             -
         </span>
-        <input type="text" class="message-inp">
+        <input type="text"
+        v-model="list.text"
+        class="message-inp"
+        @blur="Verify(list,index)"
+        ref='eminp'
+        >
         <span class="email-suggest">建议使用163邮箱</span>
-        <span class="email-error">请输入正确格式的邮箱</span>
+        <span class="email-error message-error"
+        v-show="!list.isEm"
+        >
+        请输入正确格式的邮箱
+        </span>
       </li>
   </ul>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import {EmailTest} from '../config/regTest'
 export default {
-  components: {},
-  props: {},
   data () {
     return {
-      emailStr: '18829489625,15147575763,13624853087,13644853067',
-      emailLists: [18829489625, 15147575763, 13624853087, 13644853067]
+      emailLists: []
     }
   },
-  watch: {},
-  computed: {},
+  computed: {
+    ...mapState({
+      EmStr: state => state.emails
+    })
+  },
   methods: {
     addEm (idx) {
-      console.log('点击添加', idx)
-      this.$set(this.emailLists, idx + 1, '')
+      this.emailLists.push({text: '', isEm: true})
     },
     delEm (idx) {
       this.emailLists.splice(idx, 1)
+    },
+    Verify (item, n) {
+      let str = this.refs.eminp[n].value
+      item.isEm = EmailTest(str)
     }
   },
-  mounted () {
-    this.emailLists = this.emailStr.split(',')
+  watch: {
+    EmStr: function (newstr) {
+      let newarr = newstr.split(',')
+      newarr.map((item, idx) => {
+        this.emailLists[idx] = {text: item, isEm: true}
+      })
+    }
   }
 }
 </script>

@@ -26,3 +26,8 @@ export const SET_IS_DELETE = (state, data) => {
 export const SET_MESSAGE_SHOW = (state, data) => {
   state.messageShow = data
 }
+
+// 台站配置 添加多个邮箱
+export const SET_EMAIL_STR = (state, data) => {
+  state.emails = data
+}
