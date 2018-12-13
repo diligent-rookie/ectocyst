@@ -20,4 +20,5 @@ export const GET_SYSTEM_DATA = async ({commit, state, dispatch}) => {
   if (code === 200) {
     commit('SET_EMAIL_STR', result.receivemail)
   }
+  return result
 }

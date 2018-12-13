@@ -137,7 +137,7 @@ export const MapEchart = (geodata) => {
     {name: '连通状态', id: 'link'},
     {name: '失连状态', id: 'notlink'}
   ]
-  let colors = ['#0fff17', '#ffff17']
+  let colors = ['#a6c84c', '#ffa022']
   // 数据格式处理
   let GeoData = {
     'link': [],
@@ -228,8 +228,10 @@ export const MapEchart = (geodata) => {
       top: 20,
       data: ['连通状态', '失连状态'],
       textStyle: {
-        color: '#fff',
-        fontSize: 18
+        color: '#449DDA',
+        fontSize: 18,
+        fontWeight: 700,
+        fontFamily: 'SimSun'
       },
       selected: {
         '连通状态': true,

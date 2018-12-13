@@ -23,7 +23,7 @@
         >
         <span class="email-suggest">建议使用163邮箱</span>
         <span class="email-error message-error"
-        v-show="!list.isEm"
+        v-if="!list.isEm"
         >
         请输入正确格式的邮箱
         </span>
@@ -53,16 +53,26 @@ export default {
       this.emailLists.splice(idx, 1)
     },
     Verify (item, n) {
-      let str = this.refs.eminp[n].value
+      let str = this.$refs.eminp[n].value
       item.isEm = EmailTest(str)
+    },
+    arrFormat (str) {
+      let newarr = []
+      str.indexOf(',') === -1
+        ? newarr[0] = str
+        : newarr = str.split(',')
+      newarr.map((item, idx) => {
+        item && this.emailLists.push({text: item, isEm: true})
+      })
     }
+  },
+  mounted () {
+    this.$store.commit('SET_EMAIL_STR', '')
+    this.arrFormat(this.EmStr)
   },
   watch: {
     EmStr: function (newstr) {
-      let newarr = newstr.split(',')
-      newarr.map((item, idx) => {
-        this.emailLists[idx] = {text: item, isEm: true}
-      })
+      this.arrFormat(newstr)
     }
   }
 }
@@ -77,12 +87,19 @@ export default {
     display inline-block
     vertical-align middle
 
+.new-email span.email-name
+  float left
+  display block
+  width 3rem
+  height .44rem
+  text-align left
+
 .new-email input
   width 2.4rem
   height .44rem
   line-height .44rem
   padding-left .1rem
-  margin .1rem .3rem 0 2rem
+  margin .1rem .3rem 0 0
 
 .email-suggest
     color #ccc
@@ -102,10 +119,10 @@ export default {
     cursor pointer
 
 .email-delete
-    left 2.7rem
+    left 25%
 
 .email-add
-    right 4.1rem
+    right 41%
 
 .email-add:active,.email-delete:active
     color #333

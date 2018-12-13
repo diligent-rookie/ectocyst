@@ -1,6 +1,7 @@
 <template>
   <div class="generalSetting">
     <div class="generalSettingContent">
+      <div id="computer"></div>
       <div class="system-inp">
         <h4>系统配置</h4>
         <InpComponent
@@ -12,7 +13,6 @@
         >
         </InpComponent>
       </div>
-      <div id="computer"></div>
     </div>
   </div>
 </template>
@@ -81,12 +81,8 @@ export default {
     },
     async  requestSystemIdData () {
       this.$store.dispatch('GET_SYSTEM_DATA').then((data) => {
-        console.log('台站配置传过来的数据', data)
         this.messagelists = data
       })
-      // let requestSystemId = await getSystemID()
-      // this.messagelists = requestSystemId
-      // this.sendEmailStrL = requestSystemId.receivemail
     },
   },
   mounted () {
@@ -98,6 +94,10 @@ export default {
 
     // 初次请求默认ID系统报警数据
     this.requestSystemIdData()
+    // 窗口变化 echarts 响应
+    window.addEventListener('resize', () => {
+      this.lineChart.resize()
+    })
   },
   watch: {
     idcontent: function (newvalue) {

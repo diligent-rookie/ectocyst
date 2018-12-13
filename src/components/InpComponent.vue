@@ -5,7 +5,12 @@
         :deleteId="sendId"
         :currentComponent="componentName"></WarnTip>
         <Alert></Alert>
-        <ul class="station-edit clearfix">
+        <div class="inpcontent">
+        <ul class="station-edit clearfix"
+        :class="componentName==='StationSettings'
+        ?'twoinp':'oneinp'"
+        >
+          <el-scrollbar style="height:100%">
           <li v-for="(item,index) in messageNames" :key='index'
           :class="{stationSet:componentName ==='StationSettings'}">
             <span :class="componentName==='StationSettings'?
@@ -42,7 +47,7 @@
             ref="inp"
             >
             <span class="message-tip">{{item.suggesttext}}</span>
-            <span class="message-error" v-show="item.errortext">
+            <span class="message-error" v-if="item.errortext">
               {{item.errortext}}
             </span>
           </li>
@@ -65,7 +70,9 @@
               删除
             </button>
         </div>
+          </el-scrollbar>
         </ul>
+        </div>
    </div>
 </template>
 
@@ -242,7 +249,7 @@ export default {
       let domArr = document.getElementsByClassName('message-inp')
       let inpLen = domArr.length
       let startEm = this.messageNames.length
-      let emlarr = ''
+      let emlarr = []
       this.messageNames.map((item, idx) => {
         let str = domArr[idx].value
         fixSystemData[item.englishName] =

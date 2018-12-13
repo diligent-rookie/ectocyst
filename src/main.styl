@@ -91,17 +91,31 @@ button{
 .sure:active,.delete:active{
   background-color:#4C5979;
 }
-::-webkit-scrollbar{
-  width: .08rem;
-  height: .5rem;
-  background-color: #2e3751;
+//修改element ui的样式
+.el-scrollbar__wrap{
+  overflow-x: hidden!important;
+  overflow-y: auto!important;
+  padding-right: 2px!important;
 }
-::-webkit-scrollbar-track{
-    border-radius: 10px;
-    background-color: #2e3751;
+
+
+.el-scrollbar__bar{
+  right:86px!important;
+  background-color: #0A193A!important;
 }
-::-webkit-scrollbar-thumb{
-    border-radius: 10px;
-    background-color: rgba(0,0,0,0.1);
+
+
+.el-scrollbar__thumb{
+  background-color: #ccc!important;
 }
+
+.is-horizontal{
+  display: none;
+}
+
+.el-scrollbar__view{
+  padding-right 1rem!important
+}
+
+
 

@@ -1,7 +1,10 @@
 <template>
    <div class="Protection">
      <div class="protection-content clearfix">
+       <div class="all-protection-content">
         <ul class="all-protection">
+        <el-scrollbar
+        style="height:100%;overflow:hidden">
             <li class="protection-title">维修人员概况</li>
             <li class="protection-name">
               <span>姓名</span>
@@ -21,7 +24,9 @@
               <span>{{list.email}}</span>
               <span>{{list.address}}</span>
             </li>
+        </el-scrollbar>
         </ul>
+       </div>
         <div class="protection-edit">
           <ul class="protection-tab clearfix">
             <li v-for="(item,idx) in Protectiontabs" :key="idx"
@@ -91,13 +96,17 @@ export default {
 .protection-content
   padding-top .4rem
 
-.all-protection
+.all-protection-content
   width 60%
+
+.all-protection
+  width 12.6rem
+  height 7.2rem
 
 .protection-edit
   width 36%
 
-.all-protection,.protection-edit
+.all-protection-content,.protection-edit
   height 100%
   margin 0 .15rem
   overflow-y auto

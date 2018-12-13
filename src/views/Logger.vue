@@ -5,15 +5,23 @@
             <ul>
               <li class="logger-title">当前异常日志展示</li>
               <li class="logger-name">
-                <span>日志标题</span>
-                <span>产生时间</span>
-                <span>详情描述</span>
+                <span class="title-text">日志标题</span>
+                <span class="time-text">产生时间</span>
+                <span class="detail-text">详情描述</span>
               </li>
               <li class="logger-list"
               v-for="(list,idx) in loggerLists" :key="idx">
                 <span>{{list.title?list.title:'无'}}</span>
                 <span>{{list.create_time}}</span>
-                <span v-html="list.description">
+                <span class="detail-content">
+                  <span class="detail-text" >
+                  <el-scrollbar style="
+                  height:0.8rem;overflow-x:hidden">
+                  <span v-html="list.description"
+                  style="display:inline">
+                  </span>
+                  </el-scrollbar>
+                  </span>
                 </span>
               </li>
             </ul>
@@ -67,6 +75,7 @@ export default {
 
 .log-content
   padding-top .4rem
+  position relative
 
 .all-logger
   width 98%
@@ -75,7 +84,6 @@ export default {
   overflow-y auto
   overflow-x hidden
   border 1px solid #24B7D2
-  position relative
 
 .all-logger li
   width 100%
@@ -84,7 +92,7 @@ export default {
   display flex
   justify-content space-around
 
-.all-logger li>span
+.all-logger li span
   display block
   width 20%
   height 100%
@@ -105,13 +113,29 @@ export default {
 .all-logger li.logger-list:hover
   background-color #24B7D2
 
-.all-logger li.logger-list span:nth-child(1),
-.all-logger li.logger-list span:nth-child(2)
+.all-logger li.logger-list span.title-text,
+.all-logger li.logger-list span.time-text
   line-height 0.8rem
 
-.all-logger li.logger-list span:nth-child(3)
+.all-logger li.logger-list span.detail-text
   overflow-y auto
   overflow-x hidden
   text-align left
-  padding-left 1rem
+  height 0.8rem
+  width 3.5rem
+
+.all-logger li.logger-list span.detail-content
+  width 2.5rem
+  overflow-x hidden
+  // padding-right .5rem
+  margin-left 1rem
+
+.detail-text::-webkit-scrollbar
+  width: 0 !important
+
+.detail-text
+  -ms-overflow-style none
+
+.detail-text
+  overflow -moz-scrollbars-none
 </style>

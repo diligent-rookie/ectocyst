@@ -100,10 +100,10 @@ export default {
   },
   watch: {
     stationalData: function (newval) {
-      let mapChart = echarts.init(document.getElementById('earth-map'))
-      mapChart.setOption(MapEchart(newval), true)
+      this.mapChart = echarts.init(document.getElementById('earth-map'))
+      this.mapChart.setOption(MapEchart(newval), true)
       this.MapId = newval[0].id
-      mapChart.on('click', (param) => {
+      this.mapChart.on('click', (param) => {
         // 点不到ID时不发送请求
         param.data && (this.MapId = param.data.id)
       })
@@ -127,6 +127,10 @@ export default {
     // 进入页面每五分钟请求一次地图数据
     this.setIntervalFn()
     this.requestStatus()
+    // 窗口变化 echarts响应
+    window.addEventListener('resize', () => {
+      this.mapChart.resize()
+    })
   },
   async activated () {
     this.requestStatus()
@@ -152,8 +156,7 @@ export default {
 #earth-map,.stationMessage
   height 100%
   margin 0 .15rem
-  overflow-y auto
-  overflow-x hidden
+  overflow hidden
   float left
   border 1px solid #24B7D2
 
@@ -191,4 +194,5 @@ export default {
 
 .close
   background-color #449DDA
+
 </style>

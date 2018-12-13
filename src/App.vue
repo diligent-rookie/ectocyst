@@ -26,7 +26,13 @@ export default({
 })
 </script>
 <style lang="stylus">
-html,body,#app
+html,body
+  width 100%
+  height 100%
+  overflow-x hidden
+  overflow-y auto
+
+#app
  width 100%
  height 100%
  font-family 'Micrisoft Yahei'
