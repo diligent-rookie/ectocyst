@@ -5,7 +5,7 @@
       <div class="warn">
         <!-- muted的存在解决chorme浏览器的兼容 -->
         <audio loop id="bells" muted>
-          <source src="../assets/warn.mp3" type="audio/mpeg">
+          <source src="../assets/new_warn.mp3" type="audio/mpeg">
           您的浏览器不支持播放音频
         </audio>
         <button class="switch"
@@ -91,9 +91,13 @@ export default {
       let audio = document.getElementById('bells')
       if (requestStatus === 0) {
         this.switchBoolean = true
+        this.switchColor = false
+        this.canClose = false
         audio.pause()
       } else {
         this.switchBoolean = false
+        this.switchColor = true
+        this.canClose = true
         audio.play()
       }
     }

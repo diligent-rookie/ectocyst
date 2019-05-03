@@ -27,6 +27,7 @@
     "@vue/eslint-config-standard": "^3.0.0-rc.3",
     "css-loader": "^1.0.0",
     "font-awesome": "^4.7.0",
+    "generate-asset-webpack-plugin": "^0.3.0",
     "postcss-loader": "^2.1.6",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",

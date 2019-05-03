@@ -10,7 +10,7 @@
         :class="componentName==='StationSettings'
         ?'twoinp':'oneinp'"
         >
-          <el-scrollbar style="height:100%">
+          <el-scrollbar style="height:6.5rem">
           <li v-for="(item,index) in messageNames" :key='index'
           :class="{stationSet:componentName ==='StationSettings'}">
             <span :class="componentName==='StationSettings'?
@@ -46,7 +46,12 @@
             @blur="Verify(index)"
             ref="inp"
             >
-            <span class="message-tip">{{item.suggesttext}}</span>
+            <span
+            class="message-tip"
+            :class="{'message_tip':item.englishName==='mailSmtp'}"
+             v-html="item.suggesttext">
+              <!-- {{item.suggesttext}} -->
+            </span>
             <span class="message-error" v-if="item.errortext">
               {{item.errortext}}
             </span>
@@ -198,11 +203,27 @@ export default {
             break
         }
       } else if (this.componentName === 'StationSettings') {
+        console.log('台站配置正则整数判断', IntNum(str))
         switch (n) {
-          case n < 4:
+          case n = 0:
             this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
             break
-          case n = 5:
+          case n = 1:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+          case n = 2:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+          case n = 3:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+          case n = 4:
+            this.messageNames[n].errortext = IntNum(str) ? '' : '请输入整数格式'
+            break
+          case n = 6:
+            this.messageNames[n].errortext = TelTest(str) ? '' : '请输入正确的手机号'
+            break
+          case n = 8:
             this.messageNames[n].errortext = EmailTest(str) ? '' : '请输入正确的邮箱'
             break
         }

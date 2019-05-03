@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASE_API_PREFIX } from '../config/index.js'
+import { BASE_API_PREFIX } from '../config/index'
 
 export default function (url, options, isJson) {
   const method = (options.method || 'get').toLowerCase()

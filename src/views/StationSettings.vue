@@ -50,6 +50,24 @@ export default {
           errortext: ''
         },
         {
+          chineseName: '邮箱发送端口',
+          englishName: 'mailPort',
+          suggesttext: '默认25，一般不建议修改',
+          errortext: ''
+        },
+        {
+          chineseName: '邮件发送smtp地址',
+          englishName: 'mailSmtp',
+          suggesttext: `例如:smtp.163.com，可发送163邮箱；<br>smtp.qq.com可发送QQ邮箱;<br>填错不能发送邮件`,
+          errortext: ''
+        },
+        {
+          chineseName: '报警发送手机',
+          englishName: 'sendTell',
+          suggesttext: '监测到失联的通知手机',
+          errortext: ''
+        },
+        {
           chineseName: '报警邮箱授权码',
           englishName: 'sendmailAuthorization',
           suggesttext: '注意不是邮箱密码',
@@ -58,7 +76,7 @@ export default {
         {
           chineseName: '报警发送邮箱',
           englishName: 'sendmail',
-          suggesttext: '建议使用163邮箱',
+          suggesttext: '',
           errortext: ''
         }
       ],
